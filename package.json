@@ -1,0 +1,21 @@
+{
+  "name": "nbackend-admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.config.js",
+  "dependencies": {},
+  "devDependencies": {
+    "babel-core": "^6.7.4",
+    "babel-cli": "^6.6.5",
+    "bootstrap": "^3.3.6",
+    "font-awesome": "^4.5.0",
+    "json-editor": "^0.7.23",
+    "json-schema-editor": "^1.0.0",
+    "react-bootstrap-table": "^2.1.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
