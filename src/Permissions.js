@@ -1,8 +1,8 @@
-var axios = require('axios')
+var config = require('./config')
 var Link = require('react-router').Link
+var toastr = require('toastr')
 
 var checkboxFormatter = function(cell, row, role) {
-	console.log(cell);
 	var header = (row.name.substring(0, 6) == 'Header');
 	if (header)
 		return (<div></div>);
@@ -20,12 +20,11 @@ var permissionFormatter = function(cell, row) {
 
 var Permissions = React.createClass({
 	getInitialState: function() {
-		return {roles: {Admin: {permissions: {}}}};
+		return {roles: [{'_id': 'Admin', permissions: {}}]};
 	},
 	componentDidMount: function() {
-		this.request = axios.get('http://localhost:3000/api/role/index')
+		this.request = config.doGet('role')
 		this.request.then(function(result) {
-			console.log(result)
 			this.setState({
 				roles: result.data
 			});
@@ -36,31 +35,47 @@ var Permissions = React.createClass({
 		Array.prototype.slice.call(document.getElementsByTagName('input')).forEach(function(input) {
 			roles[input.dataset.role].permissions[input.name] = input.checked;
 		});
-		Object.keys(roles).forEach(function(roleName) {
-			axios.put('http://localhost:3000/api/role/' + roleName, roles[roleName])
-				.then(function(result) {
-					console.log(result);
-				})
+		var promises = roles.map(function(role) {
+			return config.doPut('role/' + role._id, role)
 		}.bind(this));
-		console.log(roles);
+		Promise.all(promises)
+			.then(function(result) {
+				toastr.success('Saved successfully')
+			}, function(err) {
+				toastr.error(err, 'Failed to save')
+			})
+
 	},
 	render: function() {
 		var self = this;
-		var permissions = Object.keys(this.state.roles.Admin.permissions); //['Header-System', 'Create account', 'Manage Permissions', 'View Site Reports']
-		var roles = ['Permission'].concat(Object.keys(this.state.roles)); //['Permission', 'Anonymous', 'Authenticated', 'Admin']
+		var Admin = null;
+		this.state.roles.forEach(function(role) {
+			if (role._id == 'Admin')
+				Admin = role
+		})
+		var permissions = Object.keys(Admin.permissions); //['Header-System', 'Create account', 'Manage Permissions', 'View Site Reports']
+		var roles = [{_id:'abc', name:'Permission'}].concat(this.state.roles);
 		var data = [];
 		data = permissions.map(function(permission) {
 			var o = {
 				name: permission
 			};
-			Object.keys(self.state.roles).forEach(function(roleName) {
-				if (self.state.roles[roleName])
+			self.state.roles.forEach(function(role) {
+				if (role) {
 					//o[roleName] = self.state.roles[roleName].permissions.hasOwnProperty(permission);
-				o[roleName] = self.state.roles[roleName].permissions[permission];
+					o[role._id] = role.permissions[permission];
+				}
 			})
-			console.log(o);
 			return o;
-		});
+		}).sort(function(a, b) {
+			if (a.name < b.name) {
+				return -1
+			} else if (a.name > b.name) {
+				return 1
+			} else {
+				return 0
+			}
+		})
 		return (
 			<div>
 				<ul className="breadcrumbs">
@@ -70,13 +85,13 @@ var Permissions = React.createClass({
 				<h2>User Permissions</h2>
 					<BootstrapTable className="permissions" data={data} striped={true} hover={true} condensed={true} bordered={false} exportCSV={false}>
 				
-					{roles.map(function(name, i) {
-						
+					{roles.map(function(row, i) {
+						var id = row._id;
 						if (i == 0) {
-							return <TableHeaderColumn dataFormat={permissionFormatter} formatExtraData={name} width='200px' key={"name"} dataField="name" isKey={true}>Name</TableHeaderColumn>
+							return <TableHeaderColumn dataFormat={permissionFormatter} formatExtraData={i-1} width='200px' key="name" dataField="name" isKey={true}>Permission Name</TableHeaderColumn>
 						}
 						else {
-							return <TableHeaderColumn dataFormat={checkboxFormatter} formatExtraData={name} width='75px' key={name} dataAlign="center" dataField={name} isKey={i==0}>{name}</TableHeaderColumn>
+							return <TableHeaderColumn dataFormat={checkboxFormatter} formatExtraData={i-1} width='75px' key={id} dataAlign="center" dataField={id} isKey={i==0}>{id}</TableHeaderColumn>
 						}
 					})}
 

@@ -1,0 +1,46 @@
+{
+  "_id": "users",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "meta": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {}
+      },
+      "email": {
+        "type": "string"
+      },
+      "password": {
+        "type": "string"
+      },
+      "fullName": {
+        "type": "string"
+      },
+      "roles": {
+        "items": {
+          "type": "string",
+          "enum": [
+            "Admin",
+            "Anonymous",
+            "Authenticated",
+            "Test"
+          ]
+        },
+        "uniqueItems": true,
+        "type": "array",
+        "format": "checkbox"
+      }
+    },
+    "required": [
+      "email",
+      "password"
+    ]
+  },
+  "storage": "postgres",
+  "documentsHaveOwners": true,
+  "meta": {
+    "updated": "2016-04-27T09:41:18.665Z"
+  }
+}

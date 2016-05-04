@@ -1,6 +1,10 @@
 var config = require('./config')
 var Link = require('react-router').Link
 
+function linkFormatter(cell, row){
+  return (<Link to={'/edit/'+row._type+'/'+row.id}>{cell}</Link>);
+}
+
 var Collection = React.createClass({
 	componentDidMount: function() {
 		var collectionName = this.props.params.name;
@@ -22,36 +26,23 @@ var Collection = React.createClass({
 		
 		var collection = this.props.params.name;
 		var contents = (<div></div>)
+
 		if (this.state && this.state.data) {
-			var data = this.state.data.map(function(v) {
+			var data = Object.keys(this.state.data).map(function(id) {
+				var v = self.state.data[id];
 				for (var prop in v) {
-					if (typeof v[prop] != 'string')
-						v[prop] = JSON.stringify(v[prop]);
+					v[prop] = JSON.stringify(v[prop]);
 				}
 				v['_type'] = self.props.params.name;
+				v.id = id;
 				return v;
 			});
-			var contents = <table className="table table-striped table-hover table-condensed">
-				<thead><tr>
+			console.log(data);
+			var contents = <BootstrapTable data={data} striped={true} hover={false} condensed={true}>
 				{Object.keys(this.state.schema.properties).map(function(name, i) {
-					return <td key={name}>{name}</td>
+					return <TableHeaderColumn key={name} dataField={name} dataFormat={i==0?linkFormatter:undefined} isKey={i==0}>{name}</TableHeaderColumn>
 				})}
-				</tr></thead>
-				<tbody>
-					{data.map(function(row, i) {
-						return <tr key={i}>
-							{Object.keys(this.state.schema.properties).map(function(name, i) {
-								var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45)+'...';
-								if (i == 0) {
-									return <td key={i}><Link to={'/edit/'+row['_type']+'/'+row._id}>{text||'<empty>'}</Link></td>
-								} else {
-									return <td key={i}>{text}</td>
-								}
-							})}
-						</tr>
-					}.bind(this))}
-					</tbody>
-			</table>
+			</BootstrapTable>
 		}
 		return (
 			<div>

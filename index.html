@@ -5,9 +5,14 @@
   <title>Document</title>
   <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">-->
-  <link rel="stylesheet" href="/node_modules/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-  <script src="/node_modules/json-editor/dist/jsoneditor.js"></script>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="node_modules/toastr/build/toastr.min.css">
+  <script src="node_modules/json-editor/dist/jsoneditor.js"></script>
+  <!--<script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <link rel="stylesheet" href="node_modules/select2/dist/css/select2.min.css">
+  <script src="node_modules/select2/dist/js/select2.min.js"></script>-->
   <style>
   	ul.breadcrumbs {
   		list-style-type: none;
@@ -23,9 +28,11 @@
   </style>
 </head>
 <body>
-  <div id="app"></div>
-  <script src="/builds/bundle.js"></script>
-  <script src="/node_modules/json-schema-editor/dist/jsonschemaeditor.js"></script>
+  <div id="app" class="container"></div>
+  <script src="builds/bundle.js"></script>
+  <script src="node_modules/json-schema-editor/dist/jsonschemaeditor.js"></script>
+  <script src="node_modules/json-schema-editor/src/json-editor-plugin.js"></script>
+  <!--<script src="/node_modules/json-schema-editor/dist/jsonschemaeditor.js"></script>-->
   <!--<script type="text/babel" src="src/index.js"></script>-->
 </body>
 </html>

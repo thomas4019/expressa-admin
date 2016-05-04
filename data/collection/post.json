@@ -1,0 +1,45 @@
+{
+  "_id": "post",
+  "schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "title": {
+        "type": "string",
+        "format": "text",
+        "pattern": ".{10,30}"
+      },
+      "body": {
+        "type": "string",
+        "format": "textarea"
+      },
+      "color": {
+        "type": "string",
+        "format": "color"
+      },
+      "date": {
+        "type": "string",
+        "format": "tel"
+      },
+      "meta": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {}
+      },
+      "test": {
+        "type": "number",
+        "minimum": 1,
+        "maximum": 50
+      }
+    },
+    "required": [
+      "title",
+      "body"
+    ]
+  },
+  "storage": "postgres",
+  "documentsHaveOwners": true,
+  "meta": {
+    "updated": "2016-05-03T06:30:39.752Z"
+  }
+}

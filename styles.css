@@ -1,0 +1,15 @@
+.collection-entry, .menu-item	 {
+	font-size: 1.5em;
+}
+
+.collection-entry i {
+	padding-left: 10px;
+}
+
+.error-message {
+	color: red;
+}
+
+thead {
+	font-weight: bold;
+}

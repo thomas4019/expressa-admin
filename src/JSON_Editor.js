@@ -1,20 +1,35 @@
-var axios = require('axios')
+var config = require('./config')
 var Link = require('react-router').Link
+var browserHistory = require('react-router').browserHistory
+var JSON_SchemaEditor = require('./JSON_SchemaEditor');
+var toastr = require('toastr')
 
 var JSON_Editor = React.createClass({
+	getInitialState: function() {
+		return {};
+	},
 	componentDidMount: function() {
 		var collectionName = this.props.params.collection;
 		var id = this.props.params.id;
-		this.req1 = axios.get('http://localhost:3000/api/' + collectionName + '/schema')
-		this.req2 = axios.get('http://localhost:3000/api/' + collectionName + '/'+id)
+		//this.req1 = config.doGet('collection/' + collectionName)
+		this.req1 = config.doGet(collectionName + '/schema')
+		if (id != 'create') {
+			this.req2 = config.doGet(collectionName + '/'+id)
+		}
 		Promise.all([this.req1, this.req2]).then(function(results) {
+			//var collection = results[0].data;
+			//var schema = collection.schema;
 			var schema = results[0].data;
-			var doc = results[1].data;
+			var doc = (id == 'create') ? undefined : results[1].data;
+			this.doc = doc;
 			this.editor = new JSONEditor(this.refs.editor, {
 				schema: schema,
 				theme: 'bootstrap3',
-				startval: doc
+				startval: doc,
+				disable_collapse: true,
 			});
+			window.editor = this.editor
+
 		}.bind(this));
 	},
 	save: function() {
@@ -26,27 +41,44 @@ var JSON_Editor = React.createClass({
 		if (errors.length) {
 			console.log(errors);
 		} else {
-			var schema = this.editor.getValue();
+			var data = this.editor.getValue();
+
 			if (typeof id == 'undefined' || id == 'create') {
 				console.log('creating');
-				axios.post('http://localhost:3000/api/' + collection, schema)
+				console.log(data);
+				config.doPost(collection, data)
 					.then(function(result) {
+						toastr.success('Saved successfully')
 						console.log(result);
-						self.props.history.push('/collection/'+collection);
+						config.changePage('/collection/'+collection);
 					}, function(err) {
-						console.log(err);
+						toastr.error(err.data, 'Failed to save')
+						console.error(err);
 					});
 
 			} else {
-				axios.put('http://localhost:3000/api/' + collection + '/' + id, schema)
+				config.doPut(collection + '/' + id, data)
 					.then(function(result) {
+						toastr.success('Saved successfully')
 						console.log(result);
-						self.props.history.push('/collection/'+collection);
+						config.changePage('/collection/'+collection);
 					}, function(err) {
+						toastr.error(err.data, 'Failed to save')
 						console.log(err);
 					});
 			}
 		}
+	},
+	delete: function() {
+		var self = this;
+		var collection = this.props.params.collection;
+		var id = this.props.params.id;
+		config.doDelete(collection + '/' + id)
+			.then(function(result) {
+				config.changePage('/collection/'+collection);
+			}, function(err) {
+				console.log(err);
+			});
 	},
 	render: function() {
 		var collection = this.props.params.collection;
@@ -61,6 +93,7 @@ var JSON_Editor = React.createClass({
 				<div ref="editor">
 				</div>
 				<button className="btn btn-primary" onClick={this.save}>Save</button>
+				<button className="btn btn-warning" onClick={this.delete}>Delete</button>
 			</div>
 		);
 	}
