@@ -80,6 +80,7 @@ var CollectionEntry = React.createClass({
 		return (
 			<li className="collection-entry list-group-item" >
 				<Link to={'/collection/'+this.props.name}>{this.props.name}</Link>
+				<Link to={'/edit/collection/'+this.props.name}><i className="fa fa-cog" aria-hidden="true"></i></Link>
 			</li>
 		)
 	}
@@ -119,6 +120,7 @@ var Home = React.createClass({
 								return <CollectionEntry key={collection._id} name={collection._id} />
 							})}
 						</ul>
+						<Link to={'/edit/collection/create'}><button className="btn btn-primary">Add Collection</button></Link>
 						{/*<div className="col-sm-6">
 							<h2>Collections</h2>
 							<Collection params={{name: 'collection'}} />

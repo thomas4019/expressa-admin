@@ -34,7 +34,7 @@
 /******/ 	__webpack_require__.c = installedModules;
 
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
+/******/ 	__webpack_require__.p = "builds/";
 
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
@@ -144,6 +144,11 @@
 					Link,
 					{ to: '/collection/' + this.props.name },
 					this.props.name
+				),
+				React.createElement(
+					Link,
+					{ to: '/edit/collection/' + this.props.name },
+					React.createElement('i', { className: 'fa fa-cog', 'aria-hidden': 'true' })
 				)
 			);
 		}
@@ -203,6 +208,15 @@
 							this.state.collections.map(function (collection) {
 								return React.createElement(CollectionEntry, { key: collection._id, name: collection._id });
 							})
+						),
+						React.createElement(
+							Link,
+							{ to: '/edit/collection/create' },
+							React.createElement(
+								'button',
+								{ className: 'btn btn-primary' },
+								'Add Collection'
+							)
 						)
 					),
 					React.createElement(
@@ -58100,8 +58114,6 @@
 			};
 
 			var roles = ['Admin', 'Anonymous', 'Authenticated'];
-
-			//console.log(JSON.stringify(this.state, null, 2));
 
 			function postCollections() {
 				return self.state.collections.map(function (collection, i) {
