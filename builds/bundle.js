@@ -76,24 +76,24 @@
 	__webpack_require__(362);
 
 	__webpack_require__(373);
-	//require("file?name=toastr.css!./node_modules/toastr/toastr.less");
-
 	__webpack_require__(375);
-	__webpack_require__(376);
+
 	__webpack_require__(377);
 	__webpack_require__(378);
+	__webpack_require__(379);
+	__webpack_require__(380);
 
 	//require("json-schema-editor!./src/json-editor-plugin.js");
 
 	window.config = config;
 
-	var JSON_Editor = __webpack_require__(380);
-	var JSON_SchemaEditor = __webpack_require__(381);
-	var Collection = __webpack_require__(382);
-	var Permissions = __webpack_require__(383);
-	var Login = __webpack_require__(384);
-	var Logout = __webpack_require__(385);
-	var Install = __webpack_require__(386);
+	var JSON_Editor = __webpack_require__(382);
+	var JSON_SchemaEditor = __webpack_require__(383);
+	var Collection = __webpack_require__(384);
+	var Permissions = __webpack_require__(385);
+	var Login = __webpack_require__(386);
+	var Logout = __webpack_require__(387);
+	var Install = __webpack_require__(388);
 
 	config.setToken(window.sessionStorage.token);
 
@@ -119,7 +119,7 @@
 					'h2',
 					null,
 					'Welcome ',
-					this.state.user.fullName,
+					this.state.user.email,
 					'! (',
 					React.createElement(
 						Link,
@@ -40776,6 +40776,46 @@
 
 /***/ },
 /* 375 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+
+	// load the styles
+	var content = __webpack_require__(376);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(337)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../css-loader/index.js!./toastr.scss", function() {
+				var newContent = require("!!./../css-loader/index.js!./toastr.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 376 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(336)();
+	// imports
+
+
+	// module
+	exports.push([module.id, ".toast-title {\n  font-weight: bold;\n}\n.toast-message {\n  -ms-word-wrap: break-word;\n  word-wrap: break-word;\n}\n.toast-message a,\n.toast-message label {\n  color: #ffffff;\n}\n.toast-message a:hover {\n  color: #cccccc;\n  text-decoration: none;\n}\n.toast-close-button {\n  position: relative;\n  right: -0.3em;\n  top: -0.3em;\n  float: right;\n  font-size: 20px;\n  font-weight: bold;\n  color: #ffffff;\n  -webkit-text-shadow: 0 1px 0 #ffffff;\n  text-shadow: 0 1px 0 #ffffff;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n}\n.toast-close-button:hover,\n.toast-close-button:focus {\n  color: #000000;\n  text-decoration: none;\n  cursor: pointer;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n/*Additional properties for button version\n iOS requires the button element instead of an anchor tag.\n If you want the anchor version, it requires `href=\"#\"`.*/\nbutton.toast-close-button {\n  padding: 0;\n  cursor: pointer;\n  background: transparent;\n  border: 0;\n  -webkit-appearance: none;\n}\n.toast-top-center {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-center {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-full-width {\n  top: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-bottom-full-width {\n  bottom: 0;\n  right: 0;\n  width: 100%;\n}\n.toast-top-left {\n  top: 12px;\n  left: 12px;\n}\n.toast-top-right {\n  top: 12px;\n  right: 12px;\n}\n.toast-bottom-right {\n  right: 12px;\n  bottom: 12px;\n}\n.toast-bottom-left {\n  bottom: 12px;\n  left: 12px;\n}\n#toast-container {\n  position: fixed;\n  z-index: 999999;\n  /*overrides*/\n\n}\n#toast-container * {\n  -moz-box-sizing: border-box;\n  -webkit-box-sizing: border-box;\n  box-sizing: border-box;\n}\n#toast-container > div {\n  position: relative;\n  overflow: hidden;\n  margin: 0 0 6px;\n  padding: 15px 15px 15px 50px;\n  width: 300px;\n  -moz-border-radius: 3px 3px 3px 3px;\n  -webkit-border-radius: 3px 3px 3px 3px;\n  border-radius: 3px 3px 3px 3px;\n  background-position: 15px center;\n  background-repeat: no-repeat;\n  -moz-box-shadow: 0 0 12px #999999;\n  -webkit-box-shadow: 0 0 12px #999999;\n  box-shadow: 0 0 12px #999999;\n  color: #ffffff;\n  opacity: 0.8;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=80);\n  filter: alpha(opacity=80);\n}\n#toast-container > :hover {\n  -moz-box-shadow: 0 0 12px #000000;\n  -webkit-box-shadow: 0 0 12px #000000;\n  box-shadow: 0 0 12px #000000;\n  opacity: 1;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);\n  filter: alpha(opacity=100);\n  cursor: pointer;\n}\n#toast-container > .toast-info {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGwSURBVEhLtZa9SgNBEMc9sUxxRcoUKSzSWIhXpFMhhYWFhaBg4yPYiWCXZxBLERsLRS3EQkEfwCKdjWJAwSKCgoKCcudv4O5YLrt7EzgXhiU3/4+b2ckmwVjJSpKkQ6wAi4gwhT+z3wRBcEz0yjSseUTrcRyfsHsXmD0AmbHOC9Ii8VImnuXBPglHpQ5wwSVM7sNnTG7Za4JwDdCjxyAiH3nyA2mtaTJufiDZ5dCaqlItILh1NHatfN5skvjx9Z38m69CgzuXmZgVrPIGE763Jx9qKsRozWYw6xOHdER+nn2KkO+Bb+UV5CBN6WC6QtBgbRVozrahAbmm6HtUsgtPC19tFdxXZYBOfkbmFJ1VaHA1VAHjd0pp70oTZzvR+EVrx2Ygfdsq6eu55BHYR8hlcki+n+kERUFG8BrA0BwjeAv2M8WLQBtcy+SD6fNsmnB3AlBLrgTtVW1c2QN4bVWLATaIS60J2Du5y1TiJgjSBvFVZgTmwCU+dAZFoPxGEEs8nyHC9Bwe2GvEJv2WXZb0vjdyFT4Cxk3e/kIqlOGoVLwwPevpYHT+00T+hWwXDf4AJAOUqWcDhbwAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-error {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAHOSURBVEhLrZa/SgNBEMZzh0WKCClSCKaIYOED+AAKeQQLG8HWztLCImBrYadgIdY+gIKNYkBFSwu7CAoqCgkkoGBI/E28PdbLZmeDLgzZzcx83/zZ2SSXC1j9fr+I1Hq93g2yxH4iwM1vkoBWAdxCmpzTxfkN2RcyZNaHFIkSo10+8kgxkXIURV5HGxTmFuc75B2RfQkpxHG8aAgaAFa0tAHqYFfQ7Iwe2yhODk8+J4C7yAoRTWI3w/4klGRgR4lO7Rpn9+gvMyWp+uxFh8+H+ARlgN1nJuJuQAYvNkEnwGFck18Er4q3egEc/oO+mhLdKgRyhdNFiacC0rlOCbhNVz4H9FnAYgDBvU3QIioZlJFLJtsoHYRDfiZoUyIxqCtRpVlANq0EU4dApjrtgezPFad5S19Wgjkc0hNVnuF4HjVA6C7QrSIbylB+oZe3aHgBsqlNqKYH48jXyJKMuAbiyVJ8KzaB3eRc0pg9VwQ4niFryI68qiOi3AbjwdsfnAtk0bCjTLJKr6mrD9g8iq/S/B81hguOMlQTnVyG40wAcjnmgsCNESDrjme7wfftP4P7SP4N3CJZdvzoNyGq2c/HWOXJGsvVg+RA/k2MC/wN6I2YA2Pt8GkAAAAASUVORK5CYII=\") !important;\n}\n#toast-container > .toast-success {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAADsSURBVEhLY2AYBfQMgf///3P8+/evAIgvA/FsIF+BavYDDWMBGroaSMMBiE8VC7AZDrIFaMFnii3AZTjUgsUUWUDA8OdAH6iQbQEhw4HyGsPEcKBXBIC4ARhex4G4BsjmweU1soIFaGg/WtoFZRIZdEvIMhxkCCjXIVsATV6gFGACs4Rsw0EGgIIH3QJYJgHSARQZDrWAB+jawzgs+Q2UO49D7jnRSRGoEFRILcdmEMWGI0cm0JJ2QpYA1RDvcmzJEWhABhD/pqrL0S0CWuABKgnRki9lLseS7g2AlqwHWQSKH4oKLrILpRGhEQCw2LiRUIa4lwAAAABJRU5ErkJggg==\") !important;\n}\n#toast-container > .toast-warning {\n  background-image: url(\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAGYSURBVEhL5ZSvTsNQFMbXZGICMYGYmJhAQIJAICYQPAACiSDB8AiICQQJT4CqQEwgJvYASAQCiZiYmJhAIBATCARJy+9rTsldd8sKu1M0+dLb057v6/lbq/2rK0mS/TRNj9cWNAKPYIJII7gIxCcQ51cvqID+GIEX8ASG4B1bK5gIZFeQfoJdEXOfgX4QAQg7kH2A65yQ87lyxb27sggkAzAuFhbbg1K2kgCkB1bVwyIR9m2L7PRPIhDUIXgGtyKw575yz3lTNs6X4JXnjV+LKM/m3MydnTbtOKIjtz6VhCBq4vSm3ncdrD2lk0VgUXSVKjVDJXJzijW1RQdsU7F77He8u68koNZTz8Oz5yGa6J3H3lZ0xYgXBK2QymlWWA+RWnYhskLBv2vmE+hBMCtbA7KX5drWyRT/2JsqZ2IvfB9Y4bWDNMFbJRFmC9E74SoS0CqulwjkC0+5bpcV1CZ8NMej4pjy0U+doDQsGyo1hzVJttIjhQ7GnBtRFN1UarUlH8F3xict+HY07rEzoUGPlWcjRFRr4/gChZgc3ZL2d8oAAAAASUVORK5CYII=\") !important;\n}\n#toast-container.toast-top-center > div,\n#toast-container.toast-bottom-center > div {\n  width: 300px;\n  margin: auto;\n}\n#toast-container.toast-top-full-width > div,\n#toast-container.toast-bottom-full-width > div {\n  width: 96%;\n  margin: auto;\n}\n.toast {\n  background-color: #030303;\n}\n.toast-success {\n  background-color: #51a351;\n}\n.toast-error {\n  background-color: #bd362f;\n}\n.toast-info {\n  background-color: #2f96b4;\n}\n.toast-warning {\n  background-color: #f89406;\n}\n\n.toast-progress {\n  position: absolute;\n  left: 0;\n  bottom: 0;\n  height: 4px;\n  background-color: #000000;\n  opacity: 0.4;\n  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=40);\n  filter: alpha(opacity=40);\n}\n\n/*Responsive Design*/\n@media all and (max-width: 240px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 11em;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n}\n@media all and (min-width: 241px) and (max-width: 480px) {\n  #toast-container > div {\n    padding: 8px 8px 8px 50px;\n    width: 18em;\n  }\n  #toast-container .toast-close-button {\n    right: -0.2em;\n    top: -0.2em;\n  }\n}\n@media all and (min-width: 481px) and (max-width: 768px) {\n  #toast-container > div {\n    padding: 15px 15px 15px 50px;\n    width: 25em;\n  }\n}\n", ""]);
+
+	// exports
+
+
+/***/ },
+/* 377 */
 /***/ function(module, exports) {
 
 	/*! JSON Editor v0.7.25 - JSON Schema -> HTML Editor
@@ -48790,14 +48830,14 @@
 	//# sourceMappingURL=jsoneditor.js.map
 
 /***/ },
-/* 376 */
+/* 378 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global[""] = __webpack_require__(375);
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global[""] = __webpack_require__(377);
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 377 */
+/* 379 */
 /***/ function(module, exports) {
 
 	/*! JSON Editor v0.7.25 - JSON Schema -> HTML Editor
@@ -56815,14 +56855,14 @@
 	module.exports = JSONEditor;
 
 /***/ },
-/* 378 */
+/* 380 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["JSONScheamEditor"] = __webpack_require__(379);
+	/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["JSONScheamEditor"] = __webpack_require__(381);
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 379 */
+/* 381 */
 /***/ function(module, exports) {
 
 	/******/ (function(modules) { // webpackBootstrap
@@ -57447,7 +57487,7 @@
 	/******/ ]);
 
 /***/ },
-/* 380 */
+/* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57455,7 +57495,7 @@
 	var config = __webpack_require__(312);
 	var Link = __webpack_require__(251).Link;
 	var browserHistory = __webpack_require__(251).browserHistory;
-	var JSON_SchemaEditor = __webpack_require__(381);
+	var JSON_SchemaEditor = __webpack_require__(383);
 	var toastr = __webpack_require__(373);
 
 	var JSON_Editor = React.createClass({
@@ -57586,7 +57626,7 @@
 	module.exports = JSON_Editor;
 
 /***/ },
-/* 381 */
+/* 383 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57621,7 +57661,7 @@
 	module.exports = JSON_SchemaEditor;
 
 /***/ },
-/* 382 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57752,7 +57792,7 @@
 	module.exports = Collection;
 
 /***/ },
-/* 383 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57894,7 +57934,7 @@
 	module.exports = Permissions;
 
 /***/ },
-/* 384 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57978,7 +58018,7 @@
 	});
 
 /***/ },
-/* 385 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -57997,7 +58037,7 @@
 	});
 
 /***/ },
-/* 386 */
+/* 388 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -58008,53 +58048,136 @@
 	module.exports = React.createClass({
 		displayName: 'exports',
 		getInitialState: function getInitialState() {
-			var collections = [{ name: 'collection', required: true, default: 'file' }, { name: 'users', required: true, default: 'postgres' }, { name: 'role', required: true, default: 'file' }, { name: 'post', required: false, default: 'postgres' }];
+			var collections = [{ name: 'collection', required: true, storage: 'file' }, { name: 'role', required: true, storage: 'file' }, { name: 'users', required: true, storage: 'postgres' }, { name: 'post', required: false, storage: 'postgres' }];
 			collections.forEach(function (collection) {
 				collection.enabled = collection.enabled || collection.required;
 			});
-			return { collections: collections };
+			return {
+				collections: collections,
+				db_type_used: ['file', 'postgres'],
+				settings: {
+					_id: 'production',
+					postgresql_uri: "postgres://<username>:<password>@localhost/<database name>",
+					mongodb_uri: "mongodb://localhost:27017/test",
+					jwt_secret: "123123"
+				},
+				email: '',
+				password: ''
+			};
+		},
+		updateDbTypesUsed: function updateDbTypesUsed() {
+			this.state.db_type_used = this.state.collections.map(function (collection) {
+				return collection.enabled ? collection.storage : undefined;
+			});
 		},
 		changeEnabled: function changeEnabled(event) {
 			this.state.collections[event.target.name].enabled = event.target.checked;
+			this.updateDbTypesUsed();
 			this.setState(this.state);
 		},
 		changeDbType: function changeDbType(event) {
-			this.state.collections[event.target.name].default = event.target.value;
+			this.state.collections[event.target.name].storage = event.target.value;
+			this.updateDbTypesUsed();
 			this.setState(this.state);
 		},
 		change: function change(event) {
 			this.state[event.target.name] = event.target.value;
 			this.setState(this.state);
-			console.log(JSON.stringify(this.state, null, 2));
+		},
+		changeSetting: function changeSetting(event) {
+			this.state.settings[event.target.name] = event.target.value;
+			this.setState(this.state);
 		},
 		doInstall: function doInstall() {
+			var self = this;
+
+			config.setToken(undefined);
+
+			var permissions = {
+				"collection: view relevant": true,
+				"schemas: view": true,
+				"view errors": false
+			};
+
+			var roles = ['Admin', 'Anonymous', 'Authenticated'];
+
 			//console.log(JSON.stringify(this.state, null, 2));
 
-			config.doPost('users', {
-				email: this.state.email,
-				password: this.state.password
+			function postCollections() {
+				return self.state.collections.map(function (collection, i) {
+					if (collection.enabled) {
+						return axios.get('/admin/data/collection/' + collection.name + '.json').then(function (response) {
+							// Adds a delay between each post
+							// TODO: Fix addCollectionPermissions so this is unncessary
+							return new Promise(function (resolve, reject) {
+								setTimeout(function () {
+									resolve(response);
+								}, 200 * i);
+							});
+						}).then(function (response) {
+							response.data.storage = collection.storage;
+							return config.doPost('collection', response.data);
+						});
+					}
+				});
+			}
+
+			var collectionPromises = postCollections();
+
+			Promise.all(collectionPromises).then(function () {
+				return config.doPost('settings', self.state.settings);
+			}).then(function () {
+				var userPromise = config.doPost('users', {
+					email: self.state.email,
+					password: self.state.password,
+					roles: ['Admin']
+				});
+				return userPromise;
+			}).then(function () {
+				return Promise.all(roles.map(function (roleName) {
+					var role = {
+						_id: roleName,
+						permissions: JSON.parse(JSON.stringify(permissions))
+					};
+					if (roleName == 'Admin') {
+						role.permissions['view errors'] = true;
+						role.permissions['users: view hashed passwords'] = true;
+						role.permissions['users: modify roles'] = true;
+					}
+					if (roleName == 'Anonymous') {
+						role.permissions['users: create'] = true;
+					}
+					if (roleName == 'Anonymous') {
+						role.permissions['users: view own'] = true;
+						role.permissions['users: edit own'] = true;
+						role.permissions['users: delete own'] = true;
+					}
+					return config.doPost('role', role);
+				}));
+			}).then(function () {
+				return Promise.all(postCollections());
+			}).then(function () {
+				self.state.settings.enforce_permissions = true;
+				return config.doPost('settings', self.state.settings);
+			}).then(function () {
+				return config.doPost('user/login', {
+					email: self.state.email,
+					password: self.state.password
+				});
+			}).then(function (result) {
+				window.sessionStorage.token = result.data.token;
+				config.setToken(result.data.token);
+				console.log('install succeeded');
+				config.changePage('/');
+			}, function (err) {
+				console.error('error during install');
+				console.error(err.stack);
 			});
-
-			/*var promises = this.state.collections.forEach(function(collection) {
-	  	if (collection.enabled) {
-	  		return axios.get('/admin/data/collection/' + collection.name + '.json')
-	  			.then(function(response) {
-	  				console.log(response.data)
-	  				config.doPost('collection', response.data)
-	  				});
-	  	}
-	  });*/
-
-			/*Promise.all(promises)
-	  	.then(function() {
-	  		
-	  	})*/
 		},
 		render: function render() {
 			return React.createElement(
 				'div',
 				null,
-				'Installer',
 				React.createElement(
 					'h2',
 					null,
@@ -58070,9 +58193,9 @@
 							React.createElement('input', { name: index, onChange: this.changeEnabled, type: 'checkbox', checked: collection.enabled, disabled: collection.required }),
 							' ',
 							collection.name,
-							React.createElement(
+							collection.enabled ? React.createElement(
 								'select',
-								{ name: index, onChange: this.changeDbType, value: collection.default, disabled: collection.name == 'collection' },
+								{ name: index, onChange: this.changeDbType, value: collection.storage, disabled: collection.name == 'collection' },
 								React.createElement(
 									'option',
 									{ value: 'file' },
@@ -58088,7 +58211,7 @@
 									{ value: 'postgres' },
 									'postgres'
 								)
-							)
+							) : undefined
 						);
 					}.bind(this))
 				),
@@ -58100,12 +58223,29 @@
 				React.createElement(
 					'h2',
 					null,
-					'Primary Account'
+					'Administrator Account'
 				),
 				'Email: ',
-				React.createElement('input', { name: 'email', onChange: this.change, value: this.state.email, type: 'text' }),
+				React.createElement('input', { name: 'email', onChange: this.change, value: this.state.email, type: 'text', className: 'form-control' }),
 				'Password: ',
-				React.createElement('input', { name: 'password', onChange: this.change, value: this.state.password, type: 'password' }),
+				React.createElement('input', { name: 'password', onChange: this.change, value: this.state.password, type: 'password', className: 'form-control' }),
+				React.createElement(
+					'h2',
+					null,
+					'Settings'
+				),
+				this.state.db_type_used.indexOf('mongodb') != -1 ? React.createElement(
+					'div',
+					null,
+					'MongoDB URI: ',
+					React.createElement('input', { name: 'mongodb_uri', onChange: this.changeSetting, value: this.state.settings.mongodb_uri, type: 'text', className: 'form-control' })
+				) : undefined,
+				this.state.db_type_used.indexOf('postgres') != -1 ? React.createElement(
+					'div',
+					null,
+					'PostgreSQL URI: ',
+					React.createElement('input', { name: 'postgresql_uri', onChange: this.changeSetting, value: this.state.settings.postgresql_uri, type: 'text', className: 'form-control' })
+				) : undefined,
 				React.createElement('br', null),
 				React.createElement(
 					'button',

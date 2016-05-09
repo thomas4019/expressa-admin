@@ -29,7 +29,7 @@ require("bootstrap-webpack");
 require("font-awesome-webpack");
 
 require("toastr");
-//require("file?name=toastr.css!./node_modules/toastr/toastr.less");
+require("!style!css!../node_modules/toastr/toastr.scss");
 
 require('json-editor')
 require("expose?!json-editor");
@@ -68,7 +68,7 @@ const App = React.createClass({
 	render() {
 		return (
 			<div>
-				{window.sessionStorage.token ? <h2>Welcome {this.state.user.fullName}! (<Link to="/logout">logout</Link>)</h2> : <h2></h2>}
+				{window.sessionStorage.token ? <h2>Welcome {this.state.user.email}! (<Link to="/logout">logout</Link>)</h2> : <h2></h2>}
 				{this.props.children}
 			</div>
 		)
