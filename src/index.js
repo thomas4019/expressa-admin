@@ -11,7 +11,8 @@ var browserHistory = require('react-router').browserHistory
 var hashHistory = require('react-router').hashHistory
 var config = require('./config')
 
-config.setAPIURL(window.apiURL ? window.apiURL : '/api/')
+window.settings = window.settings || {}
+config.setAPIURL(window.settings.apiurl ? window.settings.apiurl : '/api/')
 
 //var jsonschemaeditor = require('json-schema-editor')
 //var JSONEditor = require('json-editor');
@@ -56,6 +57,13 @@ const App = React.createClass({
 		return {token: '', user: {}};
 	},
 	componentDidMount() {
+		config.doGet('status')
+			.then(function(response) {
+				if (!response.data.installed) {
+					config.changePage('install')
+				}
+			}.bind(this))
+
 		this.state.token = window.sessionStorage.token;
 		config.setToken(this.state.token);
 		this.setState(this.state);

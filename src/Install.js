@@ -123,6 +123,7 @@ module.exports = React.createClass({
 			})
 			.then(function() {
 				self.state.settings.enforce_permissions = true
+				self.state.settings.installed = true
 				return config.doPost('settings', self.state.settings)
 			})
 			.then(function() {
@@ -144,6 +145,7 @@ module.exports = React.createClass({
 	render() {
 		return (
 			<div>
+				<h1>Installing Expressa</h1>
 				<h2>Which collections do you want?</h2>
 				<ul>
 				{this.state.collections.map(function(collection, index) {

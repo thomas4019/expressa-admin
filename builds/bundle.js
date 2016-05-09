@@ -58,7 +58,8 @@
 	var hashHistory = __webpack_require__(251).hashHistory;
 	var config = __webpack_require__(312);
 
-	config.setAPIURL(window.apiURL ? window.apiURL : '/api/');
+	window.settings = window.settings || {};
+	config.setAPIURL(window.settings.apiurl ? window.settings.apiurl : '/api/');
 
 	//var jsonschemaeditor = require('json-schema-editor')
 	//var JSONEditor = require('json-editor');
@@ -103,6 +104,12 @@
 			return { token: '', user: {} };
 		},
 		componentDidMount: function componentDidMount() {
+			config.doGet('status').then(function (response) {
+				if (!response.data.installed) {
+					config.changePage('install');
+				}
+			}.bind(this));
+
 			this.state.token = window.sessionStorage.token;
 			config.setToken(this.state.token);
 			this.setState(this.state);
@@ -58170,6 +58177,7 @@
 				return Promise.all(postCollections());
 			}).then(function () {
 				self.state.settings.enforce_permissions = true;
+				self.state.settings.installed = true;
 				return config.doPost('settings', self.state.settings);
 			}).then(function () {
 				return config.doPost('user/login', {
@@ -58190,6 +58198,11 @@
 			return React.createElement(
 				'div',
 				null,
+				React.createElement(
+					'h1',
+					null,
+					'Installing Expressa'
+				),
 				React.createElement(
 					'h2',
 					null,
