@@ -13,3 +13,7 @@
 thead {
 	font-weight: bold;
 }
+
+.download-button {
+	margin-left: 25px;
+}

@@ -37,8 +37,6 @@ require("expose?!json-editor");
 require("exports?JSONEditor!json-editor")
 require("expose?JSONScheamEditor!json-schema-editor");
 
-//require("json-schema-editor!./src/json-editor-plugin.js");
-
 
 window.config = config;
 

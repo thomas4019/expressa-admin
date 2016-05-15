@@ -1,5 +1,6 @@
 var config = require('./config')
 var Link = require('react-router').Link
+var saveAs = require('filesaverjs').saveAs;
 
 var Collection = React.createClass({
 	componentDidMount: function() {
@@ -16,6 +17,22 @@ var Collection = React.createClass({
 	componentWillUnmount: function() {
 		//this.req1.abort();
 		//this.req2.abort();
+	},
+	downloadCSV: function() {
+		var collection = this.props.params.name;
+		var text = Object.keys(this.state.schema.properties).map(function(name, i) {
+			return '"' + name + '"'
+		}.bind(this)).join(',') + '\n'
+		if (this.state && this.state.data) {
+			text += this.state.data.map(function(v) {
+				return Object.keys(this.state.schema.properties).map(function(key) {
+					var value = v[key] || ''
+					return '"' + value.replace(/"/g, '""') + '"'
+				}.bind(this))
+			}.bind(this)).join('\n')
+			var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+			saveAs(blob, collection + '.csv');
+		}
 	},
 	render: function() {
 		var self = this;
@@ -61,6 +78,7 @@ var Collection = React.createClass({
 				</ul>
 				{contents}
 				<Link to={'/edit/'+collection+'/create'}><button className="btn btn-primary">Add</button></Link>
+				<button onClick={this.downloadCSV} className="btn btn-secondary download-button">Download All</button>
 			</div>
 		)
 	}
