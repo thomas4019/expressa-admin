@@ -4,6 +4,7 @@ var axios = require('axios')
 module.exports = React.createClass({
 	getInitialState() {
 		var collections = [
+			{name: 'settings', required: true, storage: 'file'},
 			{name: 'collection', required: true, storage: 'file'},
 			{name: 'role', required: true, storage: 'file'},
 			{name: 'users', required: true, storage: 'postgres'},
@@ -151,7 +152,7 @@ module.exports = React.createClass({
 				{this.state.collections.map(function(collection, index) {
 					return <li key={collection.name}>
 						<input name={index} onChange={this.changeEnabled} type="checkbox" checked={collection.enabled} disabled={collection.required} /> {collection.name}
-						{collection.enabled ? <select name={index} onChange={this.changeDbType} value={collection.storage} disabled={collection.name=='collection'}>
+						{collection.enabled ? <select name={index} onChange={this.changeDbType} value={collection.storage} disabled={collection.name=='collection'||collection.name=='settings'}>
 							<option value="file">file</option>
 							<option value="mongodb">mongodb</option>
 							<option value="postgres">postgres</option>

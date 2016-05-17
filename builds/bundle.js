@@ -58383,7 +58383,7 @@
 	module.exports = React.createClass({
 		displayName: 'exports',
 		getInitialState: function getInitialState() {
-			var collections = [{ name: 'collection', required: true, storage: 'file' }, { name: 'role', required: true, storage: 'file' }, { name: 'users', required: true, storage: 'postgres' }, { name: 'post', required: false, storage: 'postgres' }];
+			var collections = [{ name: 'settings', required: true, storage: 'file' }, { name: 'collection', required: true, storage: 'file' }, { name: 'role', required: true, storage: 'file' }, { name: 'users', required: true, storage: 'postgres' }, { name: 'post', required: false, storage: 'postgres' }];
 			collections.forEach(function (collection) {
 				collection.enabled = collection.enabled || collection.required;
 			});
@@ -58534,7 +58534,7 @@
 							collection.name,
 							collection.enabled ? React.createElement(
 								'select',
-								{ name: index, onChange: this.changeDbType, value: collection.storage, disabled: collection.name == 'collection' },
+								{ name: index, onChange: this.changeDbType, value: collection.storage, disabled: collection.name == 'collection' || collection.name == 'settings' },
 								React.createElement(
 									'option',
 									{ value: 'file' },
