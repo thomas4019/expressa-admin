@@ -6,6 +6,10 @@
 	padding-left: 10px;
 }
 
+.collection-entry .fa-cog {
+  float: right;
+}
+
 .error-message {
 	color: red;
 }
