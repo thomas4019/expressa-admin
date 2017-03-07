@@ -142,6 +142,11 @@
 		displayName: 'CollectionEntry',
 
 		render: function render() {
+			var edit = config.production ? '' : React.createElement(
+				Link,
+				{ to: '/edit/collection/' + this.props.name },
+				React.createElement('i', { className: 'fa fa-cog', 'aria-hidden': 'true' })
+			);
 			return React.createElement(
 				'li',
 				{ className: 'collection-entry list-group-item' },
@@ -150,11 +155,7 @@
 					{ to: '/collection/' + this.props.name },
 					this.props.name
 				),
-				React.createElement(
-					Link,
-					{ to: '/edit/collection/' + this.props.name },
-					React.createElement('i', { className: 'fa fa-cog', 'aria-hidden': 'true' })
-				)
+				edit
 			);
 		}
 	});
@@ -180,6 +181,15 @@
 			});
 		},
 		render: function render() {
+			var addcollection = !config.production ? React.createElement(
+				Link,
+				{ to: '/edit/collection/create' },
+				React.createElement(
+					'button',
+					{ className: 'btn btn-primary' },
+					'Add Collection'
+				)
+			) : '';
 			return React.createElement(
 				'div',
 				null,
@@ -211,18 +221,11 @@
 							'ul',
 							{ className: 'list-group' },
 							this.state.collections.map(function (collection) {
+								if (config.production && ["role", "collection", "settings"].indexOf(collection._id) != -1) return false;
 								return React.createElement(CollectionEntry, { key: collection._id, name: collection._id });
 							})
 						),
-						React.createElement(
-							Link,
-							{ to: '/edit/collection/create' },
-							React.createElement(
-								'button',
-								{ className: 'btn btn-primary' },
-								'Add Collection'
-							)
-						)
+						addcollection
 					),
 					React.createElement(
 						'div',
@@ -60753,6 +60756,7 @@
 		var token = '';
 
 		return {
+			production: document.location.port != "80",
 			changePage: function changePage(path) {
 				hashHistory.push(path);
 			},
@@ -72192,8 +72196,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
-				var newContent = require("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
+			module.hot.accept("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
+				var newContent = require("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -74706,8 +74710,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
-				var newContent = require("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
+			module.hot.accept("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
+				var newContent = require("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -75498,8 +75502,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../css-loader/index.js!./toastr.scss", function() {
-				var newContent = require("!!../css-loader/index.js!./toastr.scss");
+			module.hot.accept("!!./../css-loader/index.js!./toastr.scss", function() {
+				var newContent = require("!!./../css-loader/index.js!./toastr.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});

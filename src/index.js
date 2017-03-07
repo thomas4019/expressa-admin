@@ -83,10 +83,11 @@ const App = React.createClass({
 
 var CollectionEntry = React.createClass({
 	render: function() {
+    var edit = config.production ? '' : <Link to={'/edit/collection/'+this.props.name}><i className="fa fa-cog" aria-hidden="true"></i></Link>
 		return (
 			<li className="collection-entry list-group-item" >
 				<Link to={'/collection/'+this.props.name}>{this.props.name}</Link>
-				<Link to={'/edit/collection/'+this.props.name}><i className="fa fa-cog" aria-hidden="true"></i></Link>
+        {edit}
 			</li>
 		)
 	}
@@ -113,6 +114,7 @@ var Home = React.createClass({
 		  });
 	},
 	render: function() {
+    var addcollection = !config.production ? <Link to={'/edit/collection/create'}><button className="btn btn-primary">Add Collection</button></Link> : ''
 		return (
 			<div>
 				<ul className="breadcrumbs">
@@ -123,10 +125,11 @@ var Home = React.createClass({
 						<h2>Collections</h2>
 						<ul className="list-group">
 							{this.state.collections.map(function(collection) {
+                if( config.production && ["role", "collection", "settings"].indexOf(collection._id) != -1  ) return false
 								return <CollectionEntry key={collection._id} name={collection._id} />
 							})}
 						</ul>
-						<Link to={'/edit/collection/create'}><button className="btn btn-primary">Add Collection</button></Link>
+            {addcollection}
 						{/*<div className="col-sm-6">
 							<h2>Collections</h2>
 							<Collection params={{name: 'collection'}} />

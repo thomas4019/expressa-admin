@@ -6,6 +6,7 @@ module.exports = (function() {
 	var token = '';
 
 	return {
+    production: document.location.port == "80", 
 		changePage(path) {
 			hashHistory.push(path);
 		},
