@@ -60756,7 +60756,7 @@
 		var token = '';
 
 		return {
-			production: document.location.port != "80",
+			production: document.location.port == "80",
 			changePage: function changePage(path) {
 				hashHistory.push(path);
 			},
