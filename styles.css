@@ -21,3 +21,19 @@ thead {
 .download-button {
 	margin-left: 25px;
 }
+
+input {
+    border-style: solid !important;
+    padding: 7px;
+    border: 1px solid #CCC;
+}
+
+select {
+  margin: 13px;
+}
+
+input,select{
+  border-radius: 4px;
+  padding: 7px;
+}
+
