@@ -62025,7 +62025,7 @@
 
 
 	// module
-	exports.push([module.id, ".collection-entry, .menu-item\t {\n\tfont-size: 1.5em;\n}\n\n.collection-entry i {\n\tpadding-left: 10px;\n}\n\n.collection-entry .fa-cog {\n  float: right;\n}\n\n.error-message {\n\tcolor: red;\n}\n\nthead {\n\tfont-weight: bold;\n}\n\n.download-button {\n\tmargin-left: 25px;\n}\n", ""]);
+	exports.push([module.id, ".collection-entry, .menu-item\t {\n\tfont-size: 1.5em;\n}\n\n.collection-entry i {\n\tpadding-left: 10px;\n}\n\n.collection-entry .fa-cog {\n  float: right;\n}\n\n.error-message {\n\tcolor: red;\n}\n\nthead {\n\tfont-weight: bold;\n}\n\n.download-button {\n\tmargin-left: 25px;\n}\n\ninput {\n    border-style: solid !important;\n    padding: 7px;\n    border: 1px solid #CCC;\n}\n\nselect {\n  margin: 13px;\n}\n\ninput,select{\n  border-radius: 4px;\n  padding: 7px;\n}\n\n", ""]);
 
 	// exports
 
@@ -92280,6 +92280,8 @@
 
 	'use strict';
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	var config = __webpack_require__(660);
 	var Link = __webpack_require__(597).Link;
 	var browserHistory = __webpack_require__(597).browserHistory;
@@ -92301,17 +92303,22 @@
 				this.req2 = config.doGet(collectionName + '/' + id);
 			}
 			Promise.all([this.req1, this.req2]).then(function (results) {
+				var _ref;
+
 				//var collection = results[0].data;
 				//var schema = collection.schema;
 				var schema = results[0].data;
 				var doc = id == 'create' ? undefined : results[1].data;
 				this.doc = doc;
-				this.editor = new JSONEditor(this.refs.editor, {
+				schema.format = "grid";
+				this.editor = new JSONEditor(this.refs.editor, (_ref = {
 					schema: schema,
 					theme: 'bootstrap3',
 					startval: doc,
-					disable_collapse: true
-				});
+					disable_collapse: true,
+					disable_array_reorder: true,
+					disable_properties: true
+				}, _defineProperty(_ref, 'disable_collapse', true), _defineProperty(_ref, 'disable_array_delete_last_row', true), _ref));
 				window.editor = this.editor;
 			}.bind(this));
 		},
