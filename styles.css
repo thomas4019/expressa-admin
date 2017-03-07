@@ -32,8 +32,7 @@ select {
   margin: 13px;
 }
 
-input,select{
+input, select{
   border-radius: 4px;
   padding: 7px;
 }
-

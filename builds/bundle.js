@@ -56,9 +56,10 @@
 	var Link = __webpack_require__(597).Link;
 	var browserHistory = __webpack_require__(597).browserHistory;
 	var hashHistory = __webpack_require__(597).hashHistory;
-	var config = __webpack_require__(660);
 
 	window.settings = window.settings || {};
+	var config = __webpack_require__(660);
+
 	config.setAPIURL(window.settings.apiurl ? window.settings.apiurl : '/api/');
 
 	//var jsonschemaeditor = require('json-schema-editor')
@@ -60756,7 +60757,7 @@
 		var token = '';
 
 		return {
-			production: document.location.port == "80",
+			production: !window.settings.showCriticalFeaturesOnProduction && (!document.location.port || document.location.port == "80"),
 			changePage: function changePage(path) {
 				hashHistory.push(path);
 			},
@@ -62025,7 +62026,7 @@
 
 
 	// module
-	exports.push([module.id, ".collection-entry, .menu-item\t {\n\tfont-size: 1.5em;\n}\n\n.collection-entry i {\n\tpadding-left: 10px;\n}\n\n.collection-entry .fa-cog {\n  float: right;\n}\n\n.error-message {\n\tcolor: red;\n}\n\nthead {\n\tfont-weight: bold;\n}\n\n.download-button {\n\tmargin-left: 25px;\n}\n\ninput {\n    border-style: solid !important;\n    padding: 7px;\n    border: 1px solid #CCC;\n}\n\nselect {\n  margin: 13px;\n}\n\ninput,select{\n  border-radius: 4px;\n  padding: 7px;\n}\n\n", ""]);
+	exports.push([module.id, ".collection-entry, .menu-item\t {\n\tfont-size: 1.5em;\n}\n\n.collection-entry i {\n\tpadding-left: 10px;\n}\n\n.collection-entry .fa-cog {\n  float: right;\n}\n\n.error-message {\n\tcolor: red;\n}\n\nthead {\n\tfont-weight: bold;\n}\n\n.download-button {\n\tmargin-left: 25px;\n}\n\ninput {\n    border-style: solid !important;\n    padding: 7px;\n    border: 1px solid #CCC;\n}\n\nselect {\n  margin: 13px;\n}\n\ninput, select{\n  border-radius: 4px;\n  padding: 7px;\n}", ""]);
 
 	// exports
 
@@ -72196,8 +72197,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
-				var newContent = require("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
+			module.hot.accept("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
+				var newContent = require("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -74710,8 +74711,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
-				var newContent = require("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
+			module.hot.accept("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
+				var newContent = require("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -75502,8 +75503,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../css-loader/index.js!./toastr.scss", function() {
-				var newContent = require("!!./../css-loader/index.js!./toastr.scss");
+			module.hot.accept("!!../css-loader/index.js!./toastr.scss", function() {
+				var newContent = require("!!../css-loader/index.js!./toastr.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});

@@ -2,16 +2,16 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 var ReactBSTable = require('react-bootstrap-table');
 
-
 var Router = require('react-router').Router
 var IndexRoute = require('react-router').IndexRoute
 var Route = require('react-router').Route
 var Link = require('react-router').Link
 var browserHistory = require('react-router').browserHistory
 var hashHistory = require('react-router').hashHistory
-var config = require('./config')
 
 window.settings = window.settings || {}
+var config = require('./config')
+
 config.setAPIURL(window.settings.apiurl ? window.settings.apiurl : '/api/')
 
 //var jsonschemaeditor = require('json-schema-editor')
