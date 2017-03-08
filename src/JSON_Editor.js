@@ -27,6 +27,7 @@ var JSON_Editor = React.createClass({
 			this.editor = new JSONEditor(this.refs.editor, Object.assign({
 				schema: schema,
 				theme: 'bootstrap3',
+        iconlib: 'bootstrap3', 
 				startval: doc
 			}, schema.editor));
 			window.editor = this.editor
