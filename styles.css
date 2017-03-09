@@ -29,10 +29,15 @@ input {
 }
 
 select {
-  margin: 13px;
+  margin: 13px 0 !important;
+  height: 35px !important;
 }
 
 input, select{
   border-radius: 4px;
   padding: 7px;
+}
+
+.glyphicon {
+  top: 3px !important;
 }

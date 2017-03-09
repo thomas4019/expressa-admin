@@ -20,19 +20,16 @@ var JSON_Editor = React.createClass({
 			//var collection = results[0].data;
 			//var schema = collection.schema;
 			var schema = results[0].data;
+			schema.editor = schema.editor || {}
 			var doc = (id == 'create') ? undefined : results[1].data;
 			this.doc = doc;
-			schema.format = "grid"
-			this.editor = new JSONEditor(this.refs.editor, {
+			schema.format = schema.format || "grid"
+			this.editor = new JSONEditor(this.refs.editor, Object.assign({
 				schema: schema,
 				theme: 'bootstrap3',
-				startval: doc,
-				disable_collapse: true,
-				disable_array_reorder:true,
-				disable_properties:true,
-				disable_collapse:true,
-				disable_array_delete_last_row:true
-			});
+				iconlib: 'bootstrap3', 
+				startval: doc
+			}, schema.editor));
 			window.editor = this.editor
 
 		}.bind(this));
