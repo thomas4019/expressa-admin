@@ -29,7 +29,8 @@ input {
 }
 
 select {
-  margin: 13px;
+  margin: 13px 0 !important;
+  height: 35px !important;
 }
 
 input, select{
