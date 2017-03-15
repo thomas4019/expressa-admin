@@ -106,16 +106,17 @@
 			config.doGet('status').then(function (response) {
 				if (!response.data.installed) {
 					config.changePage('install');
+				} else {
+					config.doGet('user/me').then(function (response) {
+						this.state.user = response.data;
+						this.setState(this.state);
+					}.bind(this));
 				}
 			}.bind(this));
 
 			this.state.token = window.sessionStorage.token;
 			config.setToken(this.state.token);
 			this.setState(this.state);
-			config.doGet('user/me').then(function (response) {
-				this.state.user = response.data;
-				this.setState(this.state);
-			}.bind(this));
 		},
 		render: function render() {
 			return React.createElement(
@@ -62104,7 +62105,7 @@
 			};
 		},
 		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+			return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
 		}),
 		getHeadElement = memoize(function () {
 			return document.head || document.getElementsByTagName("head")[0];
@@ -72197,8 +72198,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
-				var newContent = require("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
+			module.hot.accept("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
+				var newContent = require("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -74711,8 +74712,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
-				var newContent = require("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
+			module.hot.accept("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
+				var newContent = require("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -75503,8 +75504,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../css-loader/index.js!./toastr.scss", function() {
-				var newContent = require("!!./../css-loader/index.js!./toastr.scss");
+			module.hot.accept("!!../css-loader/index.js!./toastr.scss", function() {
+				var newContent = require("!!../css-loader/index.js!./toastr.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});

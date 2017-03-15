@@ -59,17 +59,18 @@ const App = React.createClass({
 			.then(function(response) {
 				if (!response.data.installed) {
 					config.changePage('install')
+				} else {
+					config.doGet('user/me')
+						.then(function(response) {
+							this.state.user = response.data;
+							this.setState(this.state);
+						}.bind(this))
 				}
 			}.bind(this))
 
 		this.state.token = window.sessionStorage.token;
 		config.setToken(this.state.token);
 		this.setState(this.state);
-		config.doGet('user/me')
-			.then(function(response) {
-				this.state.user = response.data;
-				this.setState(this.state);
-			}.bind(this))
 	},
 	render() {
 		return (
