@@ -7,8 +7,8 @@ module.exports = React.createClass({
 			{name: 'settings', required: true, storage: 'file'},
 			{name: 'collection', required: true, storage: 'file'},
 			{name: 'role', required: true, storage: 'file'},
-			{name: 'users', required: true, storage: 'postgres'},
-			{name: 'post', required: false, storage: 'postgres'}
+			{name: 'users', required: true, storage: 'file'},
+			{name: 'post', required: false, storage: 'file'}
 		]
 		collections.forEach(function(collection) {
 			collection.enabled = collection.enabled || collection.required;
