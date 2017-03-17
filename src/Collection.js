@@ -1,6 +1,6 @@
 var config = require('./config')
 var Link = require('react-router').Link
-var saveAs = require('filesaverjs').saveAs;
+var saveAs = require('file-saver').saveAs;
 
 var Collection = React.createClass({
 	componentDidMount: function() {
