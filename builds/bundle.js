@@ -93206,7 +93206,7 @@
 							collection.name,
 							collection.enabled ? React.createElement(
 								'select',
-								{ name: index, onChange: this.changeDbType, value: collection.storage, disabled: collection.name == 'collection' || collection.name == 'settings' },
+								{ name: index, onChange: this.changeDbType, value: collection.storage, disabled: collection.name == 'collection' || collection.name == 'settings' || collection.name == 'role' },
 								React.createElement(
 									'option',
 									{ value: 'file' },

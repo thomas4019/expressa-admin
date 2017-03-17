@@ -152,7 +152,7 @@ module.exports = React.createClass({
 				{this.state.collections.map(function(collection, index) {
 					return <li key={collection.name}>
 						<input name={index} onChange={this.changeEnabled} type="checkbox" checked={collection.enabled} disabled={collection.required} /> {collection.name}
-						{collection.enabled ? <select name={index} onChange={this.changeDbType} value={collection.storage} disabled={collection.name=='collection'||collection.name=='settings'}>
+						{collection.enabled ? <select name={index} onChange={this.changeDbType} value={collection.storage} disabled={collection.name=='collection'||collection.name=='settings'||collection.name=='role'}>
 							<option value="file">file</option>
 							<option value="mongodb">mongodb</option>
 							<option value="postgres">postgres</option>
