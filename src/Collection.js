@@ -39,6 +39,18 @@ var Collection = React.createClass({
 		
 		var collection = this.props.params.name;
 		var contents = (<div></div>)
+		var jsonToHuman = function(jsonstr){
+				try{ 
+						jsonstr = jsonstr[0] == "["	? '{"":'+jsonstr+'}' : jsonstr
+						jsonstr = JSON.stringify( JSON.parse(jsonstr), null, 2 )
+											.replace(/["\[\]{}]/g, '')
+											.replace(/^\s*[\r\n]/gm, '')
+											.replace(/[^A-Za-z0-9]: /g, '')
+				}catch(e){
+					jsonstr = "corrupt JSON"
+				}
+				return jsonstr
+		}
 		if (this.state && this.state.data) {
 			var data = this.state.data.map(function(v) {
 				for (var prop in v) {
@@ -51,14 +63,16 @@ var Collection = React.createClass({
 			var contents = <table className="table table-striped table-hover table-condensed">
 				<thead><tr>
 				{Object.keys(this.state.schema.properties).map(function(name, i) {
-					return <td key={name}>{name}</td>
+					return <td key={name}>{name.replace(/_/g, ' ')}</td>
 				})}
 				</tr></thead>
 				<tbody>
 					{data.map(function(row, i) {
 						return <tr key={i}>
 							{Object.keys(this.state.schema.properties).map(function(name, i) {
-								var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45)+'...';
+								var text = row[name] != undefined ? String(row[name]) : ''
+								if( text.length && text[0].match(/^[\[{]/) != null ) text = jsonToHuman(text)
+								else text = text.length < 50 ? text : text.substring(0, 45)+'...'
 								if (i == 0) {
 									return <td key={i}><Link to={'/edit/'+row['_type']+'/'+row._id}>{text||'<empty>'}</Link></td>
 								} else {
