@@ -62008,8 +62008,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./node_modules/css-loader/index.js!./styles.css", function() {
-				var newContent = require("!!./node_modules/css-loader/index.js!./styles.css");
+			module.hot.accept("!!./../../mnt/data/home/sqz/projects/expressa-admin/node_modules/css-loader/index.js!./styles.css", function() {
+				var newContent = require("!!./../../mnt/data/home/sqz/projects/expressa-admin/node_modules/css-loader/index.js!./styles.css");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -62105,7 +62105,7 @@
 			};
 		},
 		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
 		}),
 		getHeadElement = memoize(function () {
 			return document.head || document.getElementsByTagName("head")[0];
@@ -72198,8 +72198,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
-				var newContent = require("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
+			module.hot.accept("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
+				var newContent = require("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -74712,8 +74712,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
-				var newContent = require("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
+			module.hot.accept("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
+				var newContent = require("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -75504,8 +75504,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../css-loader/index.js!./toastr.scss", function() {
-				var newContent = require("!!../css-loader/index.js!./toastr.scss");
+			module.hot.accept("!!./../css-loader/index.js!./toastr.scss", function() {
+				var newContent = require("!!./../css-loader/index.js!./toastr.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -92496,10 +92496,18 @@
 			}
 		},
 		render: function render() {
+			var _this = this;
+
 			var self = this;
 
 			var collection = this.props.params.name;
 			var contents = React.createElement('div', null);
+
+			var shouldDisplay = function shouldDisplay(property) {
+				if (_this.state.schema.listing && _this.state.schema.listing.columns && _this.state.schema.listing.columns.indexOf(property) == -1) return false;
+				return true;
+			};
+
 			if (this.state && this.state.data) {
 				var data = this.state.data.map(function (v) {
 					for (var prop in v) {
@@ -92518,6 +92526,7 @@
 							'tr',
 							null,
 							Object.keys(this.state.schema.properties).map(function (name, i) {
+								if (!shouldDisplay(name)) return;
 								return React.createElement(
 									'td',
 									{ key: name },
@@ -92534,6 +92543,7 @@
 								'tr',
 								{ key: i },
 								Object.keys(this.state.schema.properties).map(function (name, i) {
+									if (!shouldDisplay(name)) return;
 									var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45) + '...';
 									if (i == 0) {
 										return React.createElement(

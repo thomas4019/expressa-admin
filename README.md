@@ -25,6 +25,20 @@ Now put this redirect-code in your application (`app.js` e.g.) to override the d
 
 > Voila! that's it..now you can add own stylesheet/javascript where necessary.
 
+#### Display only certain columns in collection overviews 
+
+To specify which columns to (not) display, put this somewhere in your schema:
+
+        {     
+          "_id": "isers",
+          "schema": {
+          "type": "object",
+     ->   "listing":{
+     ->       "columns":["email", "fullName"]
+     ->   },
+          "properties":{
+             ...     
+
 #### Edit screens
 
 The admin-interface heavily uses the awesome [json-editor](https://npmjs.org/package/json-editor).

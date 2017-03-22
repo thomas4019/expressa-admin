@@ -39,6 +39,12 @@ var Collection = React.createClass({
 		
 		var collection = this.props.params.name;
 		var contents = (<div></div>)
+
+		var shouldDisplay = ( property ) => {
+		  if( this.state.schema.listing && this.state.schema.listing.columns && this.state.schema.listing.columns.indexOf(property) == -1 ) return false
+		  return true
+		}
+
 		if (this.state && this.state.data) {
 			var data = this.state.data.map(function(v) {
 				for (var prop in v) {
@@ -50,14 +56,16 @@ var Collection = React.createClass({
 			});
 			var contents = <table className="table table-striped table-hover table-condensed">
 				<thead><tr>
-				{Object.keys(this.state.schema.properties).map(function(name, i) {
+				{Object.keys(this.state.schema.properties).map( (name, i) => {
+					if( !shouldDisplay( name ) )  return 
 					return <td key={name}>{name}</td>
 				})}
 				</tr></thead>
 				<tbody>
 					{data.map(function(row, i) {
 						return <tr key={i}>
-							{Object.keys(this.state.schema.properties).map(function(name, i) {
+							{Object.keys(this.state.schema.properties).map( (name, i) => {
+								if( !shouldDisplay( name ) ) return 
 								var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45)+'...';
 								if (i == 0) {
 									return <td key={i}><Link to={'/edit/'+row['_type']+'/'+row._id}>{text||'<empty>'}</Link></td>
