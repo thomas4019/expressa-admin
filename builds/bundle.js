@@ -62105,7 +62105,7 @@
 			};
 		},
 		isOldIE = memoize(function() {
-			return /msie [6-9]\b/.test(self.navigator.userAgent.toLowerCase());
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
 		}),
 		getHeadElement = memoize(function () {
 			return document.head || document.getElementsByTagName("head")[0];
@@ -72198,8 +72198,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
-				var newContent = require("!!../css-loader/index.js!../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
+			module.hot.accept("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js", function() {
+				var newContent = require("!!./../css-loader/index.js!./../less-loader/index.js!./bootstrap-styles.loader.js!./bootstrap.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -74712,8 +74712,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
-				var newContent = require("!!./node_modules/css-loader/index.js!../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
+			module.hot.accept("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js", function() {
+				var newContent = require("!!./node_modules/css-loader/index.js!./../less-loader/index.js!./font-awesome-styles.loader.js!./font-awesome.config.js");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -75504,8 +75504,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../css-loader/index.js!./toastr.scss", function() {
-				var newContent = require("!!../css-loader/index.js!./toastr.scss");
+			module.hot.accept("!!./../css-loader/index.js!./toastr.scss", function() {
+				var newContent = require("!!./../css-loader/index.js!./toastr.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -92462,144 +92462,165 @@
 	var saveAs = __webpack_require__(732).saveAs;
 
 	var Collection = React.createClass({
-		displayName: 'Collection',
+	    displayName: 'Collection',
 
-		componentDidMount: function componentDidMount() {
-			var collectionName = this.props.params.name;
-			this.req1 = config.doGet(collectionName + '/');
-			this.req2 = config.doGet(collectionName + '/schema');
-			Promise.all([this.req1, this.req2]).then(function (values) {
-				this.setState({
-					data: values[0].data,
-					schema: values[1].data
-				});
-			}.bind(this));
-		},
-		componentWillUnmount: function componentWillUnmount() {
-			//this.req1.abort();
-			//this.req2.abort();
-		},
-		downloadCSV: function downloadCSV() {
-			var collection = this.props.params.name;
-			var text = Object.keys(this.state.schema.properties).map(function (name, i) {
-				return '"' + name + '"';
-			}.bind(this)).join(',') + '\n';
-			if (this.state && this.state.data) {
-				text += this.state.data.map(function (v) {
-					return Object.keys(this.state.schema.properties).map(function (key) {
-						var value = v[key] || '';
-						return '"' + value.replace(/"/g, '""') + '"';
-					}.bind(this));
-				}.bind(this)).join('\n');
-				var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-				saveAs(blob, collection + '.csv');
-			}
-		},
-		render: function render() {
-			var self = this;
+	    componentDidMount: function componentDidMount() {
+	        var collectionName = this.props.params.name;
+	        this.req1 = config.doGet(collectionName + '/');
+	        this.req2 = config.doGet(collectionName + '/schema');
+	        Promise.all([this.req1, this.req2]).then(function (values) {
+	            this.setState({
+	                data: values[0].data,
+	                schema: values[1].data
+	            });
+	        }.bind(this));
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        //this.req1.abort()
+	        //this.req2.abort()
+	    },
+	    downloadCSV: function downloadCSV() {
+	        var collection = this.props.params.name;
+	        var text = Object.keys(this.state.schema.properties).map(function (name, i) {
+	            return '"' + name + '"';
+	        }.bind(this)).join(',') + '\n';
+	        if (this.state && this.state.data) {
+	            text += this.state.data.map(function (v) {
+	                return Object.keys(this.state.schema.properties).map(function (key) {
+	                    var value = v[key] || '';
+	                    return '"' + value.replace(/"/g, '""') + '"';
+	                }.bind(this));
+	            }.bind(this)).join('\n');
+	            var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+	            saveAs(blob, collection + '.csv');
+	        }
+	    },
+	    render: function render() {
+	        var _this = this;
 
-			var collection = this.props.params.name;
-			var contents = React.createElement('div', null);
-			if (this.state && this.state.data) {
-				var data = this.state.data.map(function (v) {
-					for (var prop in v) {
-						if (typeof v[prop] != 'string') v[prop] = JSON.stringify(v[prop]);
-					}
-					v['_type'] = self.props.params.name;
-					return v;
-				});
-				var contents = React.createElement(
-					'table',
-					{ className: 'table table-striped table-hover table-condensed' },
-					React.createElement(
-						'thead',
-						null,
-						React.createElement(
-							'tr',
-							null,
-							Object.keys(this.state.schema.properties).map(function (name, i) {
-								return React.createElement(
-									'td',
-									{ key: name },
-									name
-								);
-							})
-						)
-					),
-					React.createElement(
-						'tbody',
-						null,
-						data.map(function (row, i) {
-							return React.createElement(
-								'tr',
-								{ key: i },
-								Object.keys(this.state.schema.properties).map(function (name, i) {
-									var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45) + '...';
-									if (i == 0) {
-										return React.createElement(
-											'td',
-											{ key: i },
-											React.createElement(
-												Link,
-												{ to: '/edit/' + row['_type'] + '/' + row._id },
-												text || '<empty>'
-											)
-										);
-									} else {
-										return React.createElement(
-											'td',
-											{ key: i },
-											text
-										);
-									}
-								})
-							);
-						}.bind(this))
-					)
-				);
-			}
-			return React.createElement(
-				'div',
-				null,
-				React.createElement(
-					'ul',
-					{ className: 'breadcrumbs' },
-					React.createElement(
-						'li',
-						null,
-						React.createElement(
-							Link,
-							{ to: '/' },
-							'Home'
-						)
-					),
-					React.createElement(
-						'li',
-						null,
-						React.createElement(
-							Link,
-							{ to: '/collection/' + collection },
-							collection
-						)
-					)
-				),
-				contents,
-				React.createElement(
-					Link,
-					{ to: '/edit/' + collection + '/create' },
-					React.createElement(
-						'button',
-						{ className: 'btn btn-primary' },
-						'Add'
-					)
-				),
-				React.createElement(
-					'button',
-					{ onClick: this.downloadCSV, className: 'btn btn-secondary download-button' },
-					'Download All'
-				)
-			);
-		}
+	        var self = this;
+
+	        var collection = this.props.params.name;
+	        var contents = React.createElement('div', null);
+
+	        var shouldDisplay = function shouldDisplay(property) {
+	            if (_this.state.schema.listing && _this.state.schema.listing.columns && _this.state.schema.listing.columns.indexOf(property) == -1) return false;
+	            return true;
+	        };
+
+	        var jsonToHuman = function jsonToHuman(jsonstr) {
+	            try {
+	                jsonstr = jsonstr[0] == "[" ? '{"":' + jsonstr + '}' : jsonstr;
+	                jsonstr = JSON.stringify(JSON.parse(jsonstr), null, 2).replace(/["\[\]{}]/g, '').replace(/^\s*[\r\n]/gm, '').replace(/[^A-Za-z0-9]: /g, '');
+	            } catch (e) {
+	                jsonstr = "corrupt JSON";
+	            }
+	            return jsonstr;
+	        };
+
+	        if (this.state && this.state.data) {
+	            var data = this.state.data.map(function (v) {
+	                for (var prop in v) {
+	                    if (typeof v[prop] != 'string') v[prop] = JSON.stringify(v[prop]);
+	                }
+	                v['_type'] = self.props.params.name;
+	                return v;
+	            });
+	            var contents = React.createElement(
+	                'table',
+	                { className: 'table table-striped table-hover table-condensed' },
+	                React.createElement(
+	                    'thead',
+	                    null,
+	                    React.createElement(
+	                        'tr',
+	                        null,
+	                        Object.keys(this.state.schema.properties).map(function (name, i) {
+	                            if (!shouldDisplay(name)) return;
+	                            return React.createElement(
+	                                'td',
+	                                { key: name },
+	                                name.replace(/_/g, ' ')
+	                            );
+	                        })
+	                    )
+	                ),
+	                React.createElement(
+	                    'tbody',
+	                    null,
+	                    data.map(function (row, i) {
+	                        return React.createElement(
+	                            'tr',
+	                            { key: i },
+	                            Object.keys(this.state.schema.properties).map(function (name, i) {
+	                                if (!shouldDisplay(name)) return;
+	                                var text = row[name] != undefined ? String(row[name]) : '';
+	                                if (text.length && text[0].match(/^[\[{]/) != null) text = jsonToHuman(text);else text = text.length < 50 ? text : text.substring(0, 45) + '...';
+	                                if (i == 0) {
+	                                    return React.createElement(
+	                                        'td',
+	                                        { key: i },
+	                                        React.createElement(
+	                                            Link,
+	                                            { to: '/edit/' + row['_type'] + '/' + row._id },
+	                                            text || '<empty>'
+	                                        )
+	                                    );
+	                                } else {
+	                                    return React.createElement(
+	                                        'td',
+	                                        { key: i },
+	                                        text
+	                                    );
+	                                }
+	                            })
+	                        );
+	                    }.bind(this))
+	                )
+	            );
+	        }
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'ul',
+	                { className: 'breadcrumbs' },
+	                React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                        Link,
+	                        { to: '/' },
+	                        'Home'
+	                    )
+	                ),
+	                React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                        Link,
+	                        { to: '/collection/' + collection },
+	                        collection
+	                    )
+	                )
+	            ),
+	            contents,
+	            React.createElement(
+	                Link,
+	                { to: '/edit/' + collection + '/create' },
+	                React.createElement(
+	                    'button',
+	                    { className: 'btn btn-primary' },
+	                    'Add'
+	                )
+	            ),
+	            React.createElement(
+	                'button',
+	                { onClick: this.downloadCSV, className: 'btn btn-secondary download-button' },
+	                'Download All'
+	            )
+	        );
+	    }
 	});
 
 	module.exports = Collection;

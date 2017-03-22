@@ -3,6 +3,10 @@
 This package is part of the [expressa-framework](https://github.com/thomas4019/expressa).
 Please follow the instruction [here](https://github.com/thomas4019/expressa)
 
+## Optional themes 
+
+* [zen](https://github.com/coderofsalvation/expressa-admin-theme-zen)
+
 ## Customizing
 
 You can provide your own index.html to personalize things further.
@@ -11,15 +15,29 @@ You can provide your own index.html to personalize things further.
 
 Now put this redirect-code in your application (`app.js` e.g.) to override the default index.html
 
-    var index = fs.readFileSync( __dirname+'/admin.html').toString()
     app.get('/admin/', >(req, res, next){
+      var index = fs.readFileSync( __dirname+'/admin.html').toString()
       res.set({"content-type": "text/html"})
-      res.send( index )                                                                                                                                                                               
+      res.send( index )
       res.end()
     })
     app.use('/admin', expressa.admin() )
 
 > Voila! that's it..now you can add own stylesheet/javascript where necessary.
+
+#### Display only certain columns in collection overviews 
+
+To specify which columns to (not) display, put this somewhere in your schema:
+
+        {     
+          "_id": "isers",
+          "schema": {
+          "type": "object",
+     ->   "listing":{
+     ->       "columns":["email", "fullName"]
+     ->   },
+          "properties":{
+             ...     
 
 #### Edit screens
 
