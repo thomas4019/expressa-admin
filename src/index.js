@@ -64,9 +64,15 @@ const App = React.createClass({
 						.then(function(response) {
 							this.state.user = response.data;
 							this.setState(this.state);
-						}.bind(this))
+						}.bind(this), function(err) {
+							window.destAfterLogin = location.hash.substring(1).split('?')[0];
+							config.changePage('/login');
+						})
 				}
-			}.bind(this))
+			}.bind(this),
+			function (response) {
+				console.error(response);
+			});
 
 		this.state.token = window.sessionStorage.token;
 		config.setToken(this.state.token);
@@ -102,16 +108,16 @@ var Home = React.createClass({
 	},
 	componentDidMount: function() {
 		if (typeof window.sessionStorage.token == 'undefined') {
-			config.changePage('/login');
+			return config.changePage('/login');
 		}
 		config.doGet('collection')
 		  .then(function (response) {
 		   	this.setState({
 		   		collections: response.data
 		   	});
-		  }.bind(this))
-		  .catch(function (response) {
-			console.log(response);
+		  }.bind(this),
+		  function (response) {
+			console.error(response);
 		  });
 	},
 	render: function() {
@@ -119,10 +125,10 @@ var Home = React.createClass({
 		return (
 			<div>
 				<ul className="breadcrumbs">
-					<li><Link to="/">Home</Link></li>
+					<li></li>
 				</ul>
 				<div className="row">
-					<div className="col-sm-6">
+					<div className="col-md-6">
 						<h2>Collections</h2>
 						<ul className="list-group">
 							{this.state.collections.map(function(collection) {
@@ -136,7 +142,7 @@ var Home = React.createClass({
 							<Collection params={{name: 'collection'}} />
 						</div>*/}
 					</div>
-					<div className="col-sm-6">
+					<div className="col-md-6">
 						<h2>Management</h2>
 						<ul className="list-group">
 							<Link to="/permissions">
@@ -153,9 +159,9 @@ var Home = React.createClass({
 ReactDOM.render(
 	<Router history={hashHistory}>
 		<Route path="/install" component={Install}/>
+		<Route path="/login" component={Login}/>
 		<Route path="/" component={App}>
 			<IndexRoute component={Home}/>
-			<Route path="login" component={Login}/>
 			<Route path="logout" component={Logout}/>
 			<Route path="collection/:name" component={Collection}/>
 			<Route path="edit/:collection/:id" component={JSON_Editor}/>

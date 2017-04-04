@@ -1,5 +1,6 @@
 var config = require('./config')
 var axios = require('axios')
+var generator = require('generate-password');
 
 module.exports = React.createClass({
 	getInitialState() {
@@ -20,7 +21,10 @@ module.exports = React.createClass({
 				_id: 'production',
 				postgresql_uri: "postgres://<username>:<password>@localhost/<database name>",
 				mongodb_uri: "mongodb://localhost:27017/test",
-				jwt_secret: "123123"
+				jwt_secret: generator.generate({
+					length: 20,
+					numbers: true
+				}),
 			},
 			email: '',
 			password: '',

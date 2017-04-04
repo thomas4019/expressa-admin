@@ -11,9 +11,9 @@ module.exports = React.createClass({
 			.then(function(response) {
 				config.setToken(response.data.token)
 				window.sessionStorage.token = response.data.token;
-				config.changePage('/');
+				config.changePage(window.destAfterLogin || '/');
 			}.bind(this), function(response) {
-				this.state.errorText = response.data;
+				this.state.errorText = response.data.error || response.data;
 				this.setState(this.state);
 			}.bind(this))
 		return false;
