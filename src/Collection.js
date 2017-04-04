@@ -2,6 +2,13 @@ var config = require('./config')
 var Link = require('react-router').Link
 var saveAs = require('file-saver').saveAs;
 
+function jsonToHuman(obj) {
+	return JSON.stringify( obj, null, 2 )
+		.replace(/["\[\]{}]/g, '')
+		.replace(/^\s*[\r\n]/gm, '')
+		.replace(/[^A-Za-z0-9]: /g, '')
+}
+
 var Collection = React.createClass({
 	componentDidMount: function() {
 		var collectionName = this.props.params.name;
@@ -39,33 +46,35 @@ var Collection = React.createClass({
 		
 		var collection = this.props.params.name;
 		var contents = (<div></div>)
-
-		var shouldDisplay = ( property ) => {
-		  if( this.state.schema.listing && this.state.schema.listing.columns && this.state.schema.listing.columns.indexOf(property) == -1 ) return false
-		  return true
-		}
-
 		if (this.state && this.state.data) {
 			var data = this.state.data.map(function(v) {
 				for (var prop in v) {
-					if (typeof v[prop] != 'string')
-						v[prop] = JSON.stringify(v[prop]);
+					if (typeof v[prop] != 'string') {
+						v[prop] = jsonToHuman(v[prop])
+					}
+					else if (v[prop].length > 50) {
+						v[prop] = v[prop].substring(0, 45)+'...';
+					}
 				}
 				v['_type'] = self.props.params.name;
 				return v;
 			});
+			var emptyMessage = null;
+			if (data.length == 0) {
+				emptyMessage = <tr><td colSpan={Object.keys(this.state.schema.properties).length}>
+					No records to show.
+				</td></tr>;
+			}
 			var contents = <table className="table table-striped table-hover table-condensed">
 				<thead><tr>
-				{Object.keys(this.state.schema.properties).map( (name, i) => {
-					if( !shouldDisplay( name ) )  return 
+				{Object.keys(this.state.schema.properties).map(function(name, i) {
 					return <td key={name}>{name}</td>
 				})}
 				</tr></thead>
 				<tbody>
 					{data.map(function(row, i) {
 						return <tr key={i}>
-							{Object.keys(this.state.schema.properties).map( (name, i) => {
-								if( !shouldDisplay( name ) ) return 
+							{Object.keys(this.state.schema.properties).map(function(name, i) {
 								var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45)+'...';
 								if (i == 0) {
 									return <td key={i}><Link to={'/edit/'+row['_type']+'/'+row._id}>{text||'<empty>'}</Link></td>
@@ -75,7 +84,8 @@ var Collection = React.createClass({
 							})}
 						</tr>
 					}.bind(this))}
-					</tbody>
+					{emptyMessage}
+				</tbody>
 			</table>
 		}
 		return (
