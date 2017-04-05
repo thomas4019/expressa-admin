@@ -92458,6 +92458,10 @@
 	var Link = __webpack_require__(597).Link;
 	var saveAs = __webpack_require__(732).saveAs;
 
+	function jsonToHuman(obj) {
+		return JSON.stringify(obj, null, 2).replace(/["\[\]{}]/g, '').replace(/^\s*[\r\n]/gm, '').replace(/[^A-Za-z0-9]: /g, '');
+	}
+
 	var Collection = React.createClass({
 		displayName: 'Collection',
 
@@ -92493,26 +92497,34 @@
 			}
 		},
 		render: function render() {
-			var _this = this;
-
 			var self = this;
 
 			var collection = this.props.params.name;
 			var contents = React.createElement('div', null);
-
-			var shouldDisplay = function shouldDisplay(property) {
-				if (_this.state.schema.listing && _this.state.schema.listing.columns && _this.state.schema.listing.columns.indexOf(property) == -1) return false;
-				return true;
-			};
-
 			if (this.state && this.state.data) {
 				var data = this.state.data.map(function (v) {
 					for (var prop in v) {
-						if (typeof v[prop] != 'string') v[prop] = JSON.stringify(v[prop]);
+						if (typeof v[prop] != 'string') {
+							v[prop] = jsonToHuman(v[prop]);
+						} else if (v[prop].length > 50) {
+							v[prop] = v[prop].substring(0, 45) + '...';
+						}
 					}
 					v['_type'] = self.props.params.name;
 					return v;
 				});
+				var emptyMessage = null;
+				if (data.length == 0) {
+					emptyMessage = React.createElement(
+						'tr',
+						null,
+						React.createElement(
+							'td',
+							{ colSpan: Object.keys(this.state.schema.properties).length },
+							'No records to show.'
+						)
+					);
+				}
 				var contents = React.createElement(
 					'table',
 					{ className: 'table table-striped table-hover table-condensed' },
@@ -92523,7 +92535,6 @@
 							'tr',
 							null,
 							Object.keys(this.state.schema.properties).map(function (name, i) {
-								if (!shouldDisplay(name)) return;
 								return React.createElement(
 									'td',
 									{ key: name },
@@ -92540,7 +92551,6 @@
 								'tr',
 								{ key: i },
 								Object.keys(this.state.schema.properties).map(function (name, i) {
-									if (!shouldDisplay(name)) return;
 									var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45) + '...';
 									if (i == 0) {
 										return React.createElement(
@@ -92561,7 +92571,8 @@
 									}
 								})
 							);
-						}.bind(this))
+						}.bind(this)),
+						emptyMessage
 					)
 				);
 			}
