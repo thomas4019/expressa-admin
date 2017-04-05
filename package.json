@@ -1,6 +1,6 @@
 {
   "name": "expressa-admin",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "React frontend for managing a site running expressa",
   "main": "webpack.config.js",
   "repository":"https://github.com/thomas4019/expressa-admin",
