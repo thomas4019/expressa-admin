@@ -111,7 +111,10 @@
 						this.state.user = response.data;
 						this.setState(this.state);
 					}.bind(this), function (err) {
-						window.destAfterLogin = location.hash.substring(1).split('?')[0];
+						dest = location.hash.substring(1).split('?')[0];
+						if (dest != '/login' && dest != '/') {
+							window.destAfterLogin = dest;
+						}
 						config.changePage('/login');
 					});
 				}
