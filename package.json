@@ -1,10 +1,11 @@
 {
   "name": "expressa-admin",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "React frontend for managing a site running expressa",
   "main": "webpack.config.js",
-  "repository":"https://github.com/thomas4019/expressa-admin",
+  "repository": "https://github.com/thomas4019/expressa-admin",
   "dependencies": {
+    "dotty": "0.0.2",
     "fixed-data-table": "^0.6.0",
     "jquery": "^2.2.3",
     "select2": "^4.0.2",

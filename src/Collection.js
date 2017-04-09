@@ -1,6 +1,7 @@
 var config = require('./config')
 var Link = require('react-router').Link
 var saveAs = require('file-saver').saveAs;
+var dotty = require('dotty')
 
 function jsonToHuman(obj) {
 	return JSON.stringify( obj, null, 2 )
@@ -12,7 +13,7 @@ function jsonToHuman(obj) {
 var Collection = React.createClass({
 	componentDidMount: function() {
 		var collectionName = this.props.params.name;
-		this.req1 = config.doGet(collectionName + '/')
+		this.req1 = config.doGet(collectionName + '/?orderby={"meta.created":-1}')
 		this.req2 = config.doGet(collectionName + '/schema')
 		Promise.all([this.req1, this.req2]).then(function(values) {
 			this.setState({
@@ -43,39 +44,41 @@ var Collection = React.createClass({
 	},
 	render: function() {
 		var self = this;
-		
 		var collection = this.props.params.name;
 		var contents = (<div></div>)
+
 		if (this.state && this.state.data) {
+			this.state.schema.listing = this.state.schema.listing || {};
+			this.state.listedProperties = this.state.schema.listing.columns || Object.keys(this.state.schema.properties);
+
 			var data = this.state.data.map(function(v) {
-				for (var prop in v) {
-					if (typeof v[prop] != 'string') {
-						v[prop] = jsonToHuman(v[prop])
-					}
-					else if (v[prop].length > 50) {
-						v[prop] = v[prop].substring(0, 45)+'...';
-					}
-				}
 				v['_type'] = self.props.params.name;
 				return v;
 			});
 			var emptyMessage = null;
 			if (data.length == 0) {
-				emptyMessage = <tr><td colSpan={Object.keys(this.state.schema.properties).length}>
+				emptyMessage = <tr><td colSpan={this.state.listedProperties.length}>
 					No records to show.
 				</td></tr>;
 			}
 			var contents = <table className="table table-striped table-hover table-condensed">
 				<thead><tr>
-				{Object.keys(this.state.schema.properties).map(function(name, i) {
+				{self.state.listedProperties.map(function(name, i) {
 					return <td key={name}>{name}</td>
 				})}
 				</tr></thead>
 				<tbody>
 					{data.map(function(row, i) {
 						return <tr key={i}>
-							{Object.keys(this.state.schema.properties).map(function(name, i) {
-								var text = typeof row[name] == "undefined" || row[name].length < 50 ? row[name] : row[name].substring(0, 45)+'...';
+							{this.state.listedProperties.map(function(name, i) {
+								var value = dotty.get(row, name)
+								if (typeof value == 'undefined') {
+									value = ''
+								}
+								if (typeof value != 'string') {
+									value = jsonToHuman(value)
+								}
+								var text = typeof value == "undefined" || value.length < 50 ? value : value.substring(0, 45)+'...';
 								if (i == 0) {
 									return <td key={i}><Link to={'/edit/'+row['_type']+'/'+row._id}>{text||'<empty>'}</Link></td>
 								} else {
