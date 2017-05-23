@@ -92463,169 +92463,168 @@
 	var dotty = __webpack_require__(733);
 
 	function jsonToHuman(obj) {
-	    return JSON.stringify(obj, null, 2).replace(/["\[\]{}]/g, '').replace(/^\s*[\r\n]/gm, '').replace(/[^A-Za-z0-9]: /g, '');
+		return JSON.stringify(obj, null, 2).replace(/["\[\]{}]/g, '').replace(/^\s*[\r\n]/gm, '').replace(/[^A-Za-z0-9]: /g, '');
 	}
 
 	var Collection = React.createClass({
-	    displayName: 'Collection',
+		displayName: 'Collection',
 
-	    componentDidMount: function componentDidMount() {
-	        var collectionName = this.props.params.name;
-	        this.req1 = config.doGet(collectionName + '/?orderby={"meta.created":-1}');
-	        this.req2 = config.doGet(collectionName + '/schema');
-	        Promise.all([this.req1, this.req2]).then(function (values) {
-	            this.setState({
-	                data: values[0].data,
-	                schema: values[1].data
-	            });
-	        }.bind(this));
-	    },
-	    componentWillUnmount: function componentWillUnmount() {
-	        //this.req1.abort();
-	        //this.req2.abort();
-	    },
-	    downloadCSV: function downloadCSV() {
-	        var collection = this.props.params.name;
-	        var text = Object.keys(this.state.schema.properties).map(function (name, i) {
-	            return '"' + name + '"';
-	        }.bind(this)).join(',') + '\n';
-	        if (this.state && this.state.data) {
-	            text += this.state.data.map(function (v) {
-	                return Object.keys(this.state.schema.properties).map(function (key) {
-	                    var value = v[key] || '';
-	                    return '"' + value.replace(/"/g, '""') + '"';
-	                }.bind(this));
-	            }.bind(this)).join('\n');
-	            var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
-	            saveAs(blob, collection + '.csv');
-	        }
-	    },
-	    render: function render() {
-	        var self = this;
+		componentDidMount: function componentDidMount() {
+			var collectionName = this.props.params.name;
+			this.req1 = config.doGet(collectionName + '/?orderby={"meta.created":-1}');
+			this.req2 = config.doGet(collectionName + '/schema');
+			Promise.all([this.req1, this.req2]).then(function (values) {
+				this.setState({
+					data: values[0].data,
+					schema: values[1].data
+				});
+			}.bind(this));
+		},
+		componentWillUnmount: function componentWillUnmount() {
+			//this.req1.abort();
+			//this.req2.abort();
+		},
+		downloadCSV: function downloadCSV() {
+			var collection = this.props.params.name;
+			var text = Object.keys(this.state.schema.properties).map(function (name, i) {
+				return '"' + name + '"';
+			}.bind(this)).join(',') + '\n';
+			if (this.state && this.state.data) {
+				text += this.state.data.map(function (v) {
+					return Object.keys(this.state.schema.properties).map(function (key) {
+						var value = v[key] || '';
+						return '"' + value.replace(/"/g, '""') + '"';
+					}.bind(this));
+				}.bind(this)).join('\n');
+				var blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+				saveAs(blob, collection + '.csv');
+			}
+		},
+		render: function render() {
+			var self = this;
+			var collection = this.props.params.name;
+			var contents = React.createElement('div', null);
 
-	        var collection = this.props.params.name;
-	        var contents = React.createElement('div', null);
+			if (this.state && this.state.data) {
+				this.state.schema.listing = this.state.schema.listing || {};
+				this.state.listedProperties = this.state.schema.listing.columns || Object.keys(this.state.schema.properties);
 
-	        if (this.state && this.state.data) {
-	            this.state.schema.listing = this.state.schema.listing || {};
-	            this.state.listedProperties = this.state.schema.listing.columns || Object.keys(this.state.schema.properties);
-
-	            var data = this.state.data.map(function (v) {
-	                v['_type'] = self.props.params.name;
-	                return v;
-	            });
-	            var emptyMessage = null;
-	            if (data.length == 0) {
-	                emptyMessage = React.createElement(
-	                    'tr',
-	                    null,
-	                    React.createElement(
-	                        'td',
-	                        { colSpan: this.state.listedProperties.length },
-	                        'No records to show.'
-	                    )
-	                );
-	            }
-	            var contents = React.createElement(
-	                'table',
-	                { className: 'table table-striped table-hover table-condensed' },
-	                React.createElement(
-	                    'thead',
-	                    null,
-	                    React.createElement(
-	                        'tr',
-	                        null,
-	                        self.state.listedProperties.map(function (name, i) {
-	                            return React.createElement(
-	                                'td',
-	                                { key: name },
-	                                name
-	                            );
-	                        })
-	                    )
-	                ),
-	                React.createElement(
-	                    'tbody',
-	                    null,
-	                    data.map(function (row, i) {
-	                        return React.createElement(
-	                            'tr',
-	                            { key: i },
-	                            this.state.listedProperties.map(function (name, i) {
-	                                var value = dotty.get(row, name);
-	                                if (typeof value == 'undefined') {
-	                                    value = '';
-	                                }
-	                                if (typeof value != 'string') {
-	                                    value = jsonToHuman(value);
-	                                }
-	                                var text = typeof value == "undefined" || value.length < 50 ? value : value.substring(0, 45) + '...';
-	                                if (i == 0) {
-	                                    return React.createElement(
-	                                        'td',
-	                                        { key: i },
-	                                        React.createElement(
-	                                            Link,
-	                                            { to: '/edit/' + row['_type'] + '/' + row._id },
-	                                            text || '<empty>'
-	                                        )
-	                                    );
-	                                } else {
-	                                    return React.createElement(
-	                                        'td',
-	                                        { key: i },
-	                                        text
-	                                    );
-	                                }
-	                            })
-	                        );
-	                    }.bind(this)),
-	                    emptyMessage
-	                )
-	            );
-	        }
-	        return React.createElement(
-	            'div',
-	            null,
-	            React.createElement(
-	                'ul',
-	                { className: 'breadcrumbs' },
-	                React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                        Link,
-	                        { to: '/' },
-	                        'Home'
-	                    )
-	                ),
-	                React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                        Link,
-	                        { to: '/collection/' + collection },
-	                        collection
-	                    )
-	                )
-	            ),
-	            contents,
-	            React.createElement(
-	                Link,
-	                { to: '/edit/' + collection + '/create' },
-	                React.createElement(
-	                    'button',
-	                    { className: 'btn btn-primary' },
-	                    'Add'
-	                )
-	            ),
-	            React.createElement(
-	                'button',
-	                { onClick: this.downloadCSV, className: 'btn btn-secondary download-button' },
-	                'Download All'
-	            )
-	        );
-	    }
+				var data = this.state.data.map(function (v) {
+					v['_type'] = self.props.params.name;
+					return v;
+				});
+				var emptyMessage = null;
+				if (data.length == 0) {
+					emptyMessage = React.createElement(
+						'tr',
+						null,
+						React.createElement(
+							'td',
+							{ colSpan: this.state.listedProperties.length },
+							'No records to show.'
+						)
+					);
+				}
+				var contents = React.createElement(
+					'table',
+					{ className: 'table table-striped table-hover table-condensed' },
+					React.createElement(
+						'thead',
+						null,
+						React.createElement(
+							'tr',
+							null,
+							self.state.listedProperties.map(function (name, i) {
+								return React.createElement(
+									'td',
+									{ key: name },
+									name
+								);
+							})
+						)
+					),
+					React.createElement(
+						'tbody',
+						null,
+						data.map(function (row, i) {
+							return React.createElement(
+								'tr',
+								{ key: i },
+								this.state.listedProperties.map(function (name, i) {
+									var value = dotty.get(row, name);
+									if (typeof value == 'undefined') {
+										value = '';
+									}
+									if (typeof value != 'string') {
+										value = jsonToHuman(value);
+									}
+									var text = typeof value == "undefined" || value.length < 50 ? value : value.substring(0, 45) + '...';
+									if (i == 0) {
+										return React.createElement(
+											'td',
+											{ key: i },
+											React.createElement(
+												Link,
+												{ to: '/edit/' + row['_type'] + '/' + row._id },
+												text || '<empty>'
+											)
+										);
+									} else {
+										return React.createElement(
+											'td',
+											{ key: i },
+											text
+										);
+									}
+								})
+							);
+						}.bind(this)),
+						emptyMessage
+					)
+				);
+			}
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'ul',
+					{ className: 'breadcrumbs' },
+					React.createElement(
+						'li',
+						null,
+						React.createElement(
+							Link,
+							{ to: '/' },
+							'Home'
+						)
+					),
+					React.createElement(
+						'li',
+						null,
+						React.createElement(
+							Link,
+							{ to: '/collection/' + collection },
+							collection
+						)
+					)
+				),
+				contents,
+				React.createElement(
+					Link,
+					{ to: '/edit/' + collection + '/create' },
+					React.createElement(
+						'button',
+						{ className: 'btn btn-primary' },
+						'Add'
+					)
+				),
+				React.createElement(
+					'button',
+					{ onClick: this.downloadCSV, className: 'btn btn-secondary download-button' },
+					'Download All'
+				)
+			);
+		}
 	});
 
 	module.exports = Collection;
@@ -93399,7 +93398,13 @@
 			var collectionPromises = postCollections();
 
 			Promise.all(collectionPromises).then(function () {
-				return config.doPost('settings', self.state.settings);
+				self.devSettings = JSON.parse(JSON.stringify(self.state.settings));
+				self.devSettings._id = 'development';
+				self.devSettings.jwt_secret = generator.generate({
+					length: 20,
+					numbers: true
+				});
+				return Promise.all([config.doPost('settings', self.state.settings), config.doPost('settings', self.devSettings)]);
 			}).then(function () {
 				var userPromise = config.doPost('users', {
 					email: self.state.email,
@@ -93433,7 +93438,9 @@
 			}).then(function () {
 				self.state.settings.enforce_permissions = true;
 				self.state.settings.installed = true;
-				return config.doPost('settings', self.state.settings);
+				self.devSettings.enforce_permissions = true;
+				self.devSettings.installed = true;
+				return Promise.all([config.doPost('settings', self.state.settings), config.doPost('settings', self.devSettings)]);
 			}).then(function () {
 				return config.doPost('user/login', {
 					email: self.state.email,

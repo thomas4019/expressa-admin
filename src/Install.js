@@ -91,7 +91,14 @@ module.exports = React.createClass({
 
 		Promise.all(collectionPromises)
 			.then(function() {
-				return config.doPost('settings', self.state.settings)
+				self.devSettings = JSON.parse(JSON.stringify(self.state.settings));
+				self.devSettings._id = 'development';
+				self.devSettings.jwt_secret = generator.generate({
+					length: 20,
+					numbers: true
+				});
+				return Promise.all([config.doPost('settings', self.state.settings),
+					config.doPost('settings', self.devSettings)]);
 			})
 			.then(function() {
 				var userPromise = config.doPost('users', {
@@ -129,7 +136,10 @@ module.exports = React.createClass({
 			.then(function() {
 				self.state.settings.enforce_permissions = true
 				self.state.settings.installed = true
-				return config.doPost('settings', self.state.settings)
+				self.devSettings.enforce_permissions = true
+				self.devSettings.installed = true
+				return Promise.all([config.doPost('settings', self.state.settings),
+					config.doPost('settings', self.devSettings)]);
 			})
 			.then(function() {
 				return config.doPost('user/login', {
