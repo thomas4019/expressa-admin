@@ -35,7 +35,7 @@ var Collection = React.createClass({
 			text += this.state.data.map(function(v) {
 				return Object.keys(this.state.schema.properties).map(function(key) {
 					var value = v[key] || ''
-					return '"' + value.replace(/"/g, '""') + '"'
+					return '"' + String(value).replace(/"/g, '""') + '"'
 				}.bind(this))
 			}.bind(this)).join('\n')
 			var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
