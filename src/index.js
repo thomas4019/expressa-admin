@@ -12,30 +12,31 @@ var hashHistory = require('react-router').hashHistory
 window.settings = window.settings || {}
 var config = require('./config')
 
-config.setAPIURL(window.settings.apiurl ? window.settings.apiurl : '/api/')
+config.setAPIURL(window.settings.apiurl ? window.settings.apiurl : 'http://localhost:3000/')
 
 //var jsonschemaeditor = require('json-schema-editor')
 //var JSONEditor = require('json-editor');
 
-require("expose?React!react");
-require("expose?ReactDOM!react-dom");
-require("expose?config!./config");
+require("expose-loader?React!react");
+require("expose-loader?ReactDOM!react-dom");
+require("expose-loader?config!./config");
 
-require('../styles.css')
+require('../styles.scss')
 
-require('expose?$!expose?jQuery!jquery');
+require('expose-loader?$!expose-loader?jQuery!jquery');
 
-require("bootstrap-webpack");
+require("bootstrap-loader");
 
-require("font-awesome-webpack");
+//require("font-awesome-webpack");
+//import 'font-awesome/scss/font-awesome.scss';
 
 require("toastr");
-require("!style!css!../node_modules/toastr/toastr.scss");
+require("!style-loader!css-loader!../node_modules/toastr/toastr.scss");
 
 require('json-editor')
-require("expose?!json-editor");
-require("exports?JSONEditor!json-editor")
-require("expose?JSONScheamEditor!json-schema-editor");
+require("expose-loader?!json-editor");
+require("exports-loader?JSONEditor!json-editor")
+require("expose-loader?JSONScheamEditor!json-schema-editor");
 
 
 window.config = config;
@@ -43,6 +44,9 @@ window.config = config;
 var JSON_Editor = require('./JSON_Editor');
 var JSON_SchemaEditor = require('./JSON_SchemaEditor');
 var Collection = require('./Collection');
+var CollectionPaginated = require('./CollectionPaginated');
+var CollectionBootstrap = require('./CollectionBootstrap');
+var CollectionFixedDataTable = require('./CollectionFixedDataTable');
 var Permissions = require('./Permissions');
 var Login = require('./Login')
 var Logout = require('./Logout')
@@ -166,7 +170,7 @@ ReactDOM.render(
 		<Route path="/" component={App}>
 			<IndexRoute component={Home}/>
 			<Route path="logout" component={Logout}/>
-			<Route path="collection/:name" component={Collection}/>
+			<Route path="collection/:name" component={CollectionPaginated}/>
 			<Route path="edit/:collection/:id" component={JSON_Editor}/>
 			<Route path="permissions" component={Permissions}/>
 		</Route>

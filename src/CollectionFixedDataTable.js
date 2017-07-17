@@ -4,10 +4,21 @@ var Link = require('react-router').Link
 var Table = require('fixed-data-table').Table;
 var Column = require('fixed-data-table').Column;
 var Cell = require('fixed-data-table').Cell;
+import GetContainerDimensions from 'react-dimensions'
+import ReactPaginate from 'react-paginate';
+
+import 'fixed-data-table/dist/fixed-data-table.css'
+
 
 function linkFormatter(cell, row){
   return (<Link to={'/edit/'+row._type+'/'+row.id}>{cell}</Link>);
 }
+
+const TextCell = ({rowIndex, data, col}) => (
+  <Cell>
+    {data[rowIndex][col]}
+  </Cell>
+);
 
 var Collection = React.createClass({
 	componentDidMount: function() {
@@ -41,18 +52,17 @@ var Collection = React.createClass({
 				}
 				v['_type'] = self.props.params.name;
 				v.id = id;
-				return o;
 				return v;
 			});
 			console.log(data);
 			console.log(this.state.schema.properties)
 			var contents = <Table rowHeight={50} rowsCount={data.length}
-			width={500} height={500} headerHeight={50}>
+			width={this.props.containerWidth} height={500} headerHeight={50}>
 				{Object.keys(this.state.schema.properties).map(function(name, i) {
 					return <Column key={name}
-						header={<Cell>name aoeub</Cell>}
-						cell={<Cell>123</Cell>}
-						width={100}
+						header={<Cell>{name}</Cell>}
+						cell={<TextCell data={data} col={name} />}
+						width={150}
 					/>
 				})}
 			</Table>
@@ -70,10 +80,17 @@ var Collection = React.createClass({
 					<li><Link to={'/collection/'+collection}>{collection}</Link></li>
 				</ul>
 				{contents}
+				<nav aria-label="...">
+					<ul className="pagination">
+						<li className="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+						<li className="active"><a href="#">1</a></li>
+						...
+					</ul>
+				</nav>
 				<Link to={'/edit/'+collection+'/create'}><button className="btn btn-primary">Add</button></Link>
 			</div>
 		)
 	}
 });
 
-module.exports = Collection;
+module.exports = GetContainerDimensions()(Collection);

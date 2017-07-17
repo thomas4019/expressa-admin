@@ -1,5 +1,7 @@
 var config = require('./config')
 var Link = require('react-router').Link
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
+import 'react-bootstrap-table/dist/react-bootstrap-table.min.css';
 
 function linkFormatter(cell, row){
   return (<Link to={'/edit/'+row._type+'/'+row.id}>{cell}</Link>);
@@ -38,7 +40,7 @@ var Collection = React.createClass({
 				return v;
 			});
 			console.log(data);
-			var contents = <BootstrapTable data={data} striped={true} hover={false} condensed={true}>
+			var contents = <BootstrapTable width='1000' height='200' data={data} striped={true} hover={false} condensed={true}>
 				{Object.keys(this.state.schema.properties).map(function(name, i) {
 					return <TableHeaderColumn key={name} dataField={name} dataFormat={i==0?linkFormatter:undefined} isKey={i==0}>{name}</TableHeaderColumn>
 				})}
