@@ -157,7 +157,7 @@ var Collection = React.createClass({
 					<button style={{marginLeft: '8px'}} onClick={this.prev} className="btn btn-secondary">Prev</button>
 					<button style={{marginLeft: '8px'}} onClick={this.next} className="btn btn-secondary">Next</button>
 					<div style={{float: 'right'}}>
-						<label for="itemsPerPage">Items per page:</label>
+						<label htmlFor="itemsPerPage">Items per page:</label>
 						<select defaultValue="50" name="itemsPerPage" onChange={this.changeItemsPerPage}>
 							<option value="10">10</option>
 							<option value="50">50</option>

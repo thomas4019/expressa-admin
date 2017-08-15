@@ -54,7 +54,16 @@ var Permissions = React.createClass({
 				Admin = role
 		})
 		var permissions = Object.keys(Admin.permissions); //['Header-System', 'Create account', 'Manage Permissions', 'View Site Reports']
-		var roles = [{_id:'abc', name:'Permission'}].concat(this.state.roles);
+		var ordered = ['Admin', 'Authenticated', 'Anonymous'];
+		var roles = [{_id:'abc', name:'Permission'}].concat(this.state.roles.sort(function(a, b) {
+			var ai = ordered.indexOf(a._id);
+			var bi = ordered.indexOf(b._id);
+			if (ai != bi) {
+				return bi - ai;
+			} else {
+				return a._id.localeCompare(b._id);
+			}
+		}));
 		var data = [];
 		data = permissions.map(function(permission) {
 			var o = {
