@@ -13,13 +13,13 @@ function jsonToHuman(obj) {
 var Collection = React.createClass({
 	componentDidMount: function() {
 		var collectionName = this.props.params.name;
-		this.req1 = config.doGet(collectionName + '/?limit=50&page=0&query={}&orderby={"meta.created":-1}')
+		this.req1 = config.doGet(collectionName + '/?limit=50&page=1&query={}&orderby={"meta.created":-1}')
 		this.req2 = config.doGet(collectionName + '/schema')
 		Promise.all([this.req1, this.req2]).then(function(values) {
 			this.setState({
 				searchtext: '',
 				itemsPerPage: 50,
-				page: 0,
+				page: 1,
 				pageCount: values[0].data.pages,
 				data: values[0].data.data,
 				schema: values[1].data
@@ -47,14 +47,14 @@ var Collection = React.createClass({
 		}
 	},
 	prev: function() {
-		if (this.state.page > 0) {
+		if (this.state.page > 1) {
 			this.state.page--;
 			this.setState(this.state);
 			this.update();
 		}
 	},
 	next: function() {
-		if (this.state.page < this.state.pageCount - 1) {
+		if (this.state.page < this.state.pageCount) {
 			this.state.page++;
 			this.setState(this.state);
 			this.update();

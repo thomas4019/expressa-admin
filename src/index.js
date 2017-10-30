@@ -53,11 +53,11 @@ var Logout = require('./Logout')
 var Install = require('./Install')
 
 config.setToken(window.sessionStorage.token);
-
-const App = React.createClass({
-	getInitialState() {
-		return {token: '', user: {}};
-	},
+class App extends React.Component {
+	constructor(props) {
+        super(props);
+        this.state = {token: '', user: {}};
+    }
 	componentDidMount() {
 		config.doGet('status')
 			.then(function(response) {
@@ -84,7 +84,7 @@ const App = React.createClass({
 		this.state.token = window.sessionStorage.token;
 		config.setToken(this.state.token);
 		this.setState(this.state);
-	},
+	}
 	render() {
 		return (
 			<div>
@@ -93,7 +93,7 @@ const App = React.createClass({
 			</div>
 		)
 	}
-})
+}
 
 var CollectionEntry = React.createClass({
 	render: function() {
