@@ -1,3 +1,5 @@
+*DEPRECATED* This has been moved into [core expressa](https://github.com/thomas4019/expressa/tree/master/modules/admin) as a a module.
+
 ## Usage
 
 This package is part of the [expressa-framework](https://github.com/thomas4019/expressa).
