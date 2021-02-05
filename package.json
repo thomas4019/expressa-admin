@@ -6,7 +6,7 @@
   "repository": "https://github.com/thomas4019/expressa-admin",
   "dependencies": {
     "bootstrap-loader": "^2.2.0",
-    "dotty": "0.0.2",
+    "dotty": "0.1.1",
     "fixed-data-table": "^0.6.5",
     "generate-password": "1.3.0",
     "jquery": "^3.3.1",
