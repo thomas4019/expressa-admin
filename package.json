@@ -39,7 +39,7 @@
     "json-schema-editor": "^0.2.0",
     "less": "^3.8.1",
     "less-loader": "^2.2.3",
-    "node-sass": "^4.10.0",
+    "node-sass": "^7.0.0",
     "react": "^15.6.2",
     "react-bootstrap-table": "^3.5.1",
     "react-dom": "^15.6.2",
